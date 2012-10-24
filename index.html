@@ -2,6 +2,16 @@
 <html lang="en">
   <head>
   	<link rel="StyleSheet" href="style.css" type="text/css" media="screen">
+  	
+  	<script src="js/jquery-1.8.2.js" type="text/javascript" ></script>
+	<script src="js/User.js" type="text/javascript" ></script>
+	<script src="js/Story.js" type="text/javascript" ></script>
+	<script src="js/Comment.js" type="text/javascript" ></script>
+	<script src="js/Discussion.js" type="text/javascript" ></script>
+	<script src="js/MapFunctions.js" type="text/javascript" ></script>
+	<script src="js/NewsFeed.js" type="text/javascript" ></script>
+	<script src="js/startup.js" type="text/javascript" ></script>
+	
     <meta charset="utf-8">
     <meta name="created" content="Sun, 16 Sep 2012 20:59:43 GMT">
     <meta name="description" content="">
@@ -13,47 +23,118 @@
     <![endif]-->
   </head>
   <body>
-  		<nav>
+<nav>
 			 <ul>
-			 	 <li>Browse World News by:</li>
-				 <li><a>Topic</a></li>
-				 <li><a>Location</a></li>
-				 <li><a>Newspaper</a></li>
-				 <li><a>Most Viewed</a></li>
-				 <li><a>Most Recent</a></li>
-				 <li><a>Favorite Poster</a></li>
-				 <li><a>Login</a></li>
+			 	<div class="menu">
+			 	 <li>Browse World News by:</li>		
+				 <div class="hoverli1">
+				 	<a>Topic</a>
+				         <ul class="topic_menu">
+        					<li><a>Headlines</a></li>
+							<li><a>Politics</a></li>
+        					<li><a>Business</a></li>
+        					<li><a>Sports</a></li>
+        					<li><a>Entertainment</a></li>
+        				</ul>
+        		</div>
+        		<div class="hoverli2">
+				 	<a>Location</a>
+				 			<ul class="location_menu">
+        					<li><a>Europe</a></li>
+							<li><a>Americas</a></li>
+        					<li><a>Africa</a></li>
+        					<li><a>Asia</a></li>
+        					<li><a>Oceania</a></li>
+        				</ul>
+        		</div>
+        		<div class="hoverli3">
+				 	<a>Newspaper</a>
+				 	<ul class="newspaper_menu">
+        					<li><a>NYT</a></li>
+							<li><a>WSJ</a></li>
+        					<li><a>FT</a></li>
+        					<li><a>CNN</a></li>
+        				</ul>
+        		</div>
+        		<div class="hoverli4">
+				 	<a>Most Viewed</a>
+				 	<ul class="viewed_menu">
+        					<li><a>Daily</a></li>
+							<li><a>Weekly</a></li>
+        					<li><a>Monthly</a></li>
+        					<li><a>Yearly</a></li>
+        				</ul>
+        		</div>
+        		<div class="hoverli5">
+				 	<a>Most Recent</a>
+				 	<ul class="recent_menu">
+        					<li><a>Recently Viewed</a></li>
+							<li><a>Recently Liked</a></li>
+        					<li><a>Recently Recommended</a></li>
+        				</ul>
+        		</div>
+        		<div class="hoverli6">
+				 	<a>Favorite Poster</a>
+				 	<ul class="favorite_menu">
+        					<li><a>Show Posters</a></li>
+        					<li><a>Add Poster</a></li>
+        				</ul>
+        		</div>
+        		<div class="hoverli7">
+				 	<a>Login</a>
+				 	<ul class="login_menu">	
+							<li><a>Username</a></li>
+        					<li><a>Password</a></li>
+					</ul>
+			 	</div>
+			 </div>
 			 </ul>
 		</nav>
-		<div id="content">
 		
+		<div id="content">
+			 
 			 <div id="map">
-			 	  <iframe src="pics/time_95.jpg"></iframe>
+			 		<iframe src="pics/time_95.jpg" > Map </iframe>
+			 		<div id="storyFormDiv">
+			 			<form name="storyForm" action="javascript: void(0);"> 
+			 				User: <input id="user" type="text" name="user"><br >
+			 				Title: <input id="title" type="text" name="title"><br >
+			 				Link: <input id="url" type="text" name="url"><br >
+			 				Topic: <input type="text" id="topic" name"topic"><br >
+			 				<button id="postStory" value="submit" >Submit Story</button>
+						</form>
+			 		</div>
+			 		
+			 </div>
+			 
+			 <div id="discussion">
+			 	<h2>Discussion</h2>
+			 	<form id="addComment">
+			 		Comment<input id="commentText" type="text">
+			 		Author<input id="commentAuthor" type="text">
+			 		<button id="submitComment" > Add Comment</button> 
+			 	</form>
+			 	<!-- <button id="closeDiscussion"> Close Discussion </button> > -->
+			 	<ul id="comments">
+			 	</ul>
 			 </div>
 			 
 			 <div id="newsFeed">
-				  	  <h2>News Feed</h2>
-					  <ul class="article">
-						 <li class="title">Title 1</li>
-					     <li>Author</li>
-						 <li>Aenean ac lorem massa, porta fringilla diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pellentesque placerat mauris vel pellentesque.</li>
-					   </ul>
-					   <ul class="article">
-						  <li class="title">Title 2</li>
-						  <li>Author</li>
-						  <li>Aenean ac lorem massa, porta fringilla diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pellentesque placerat mauris vel pellentesque.</li>
-					   </ul>
-					   <ul class="article">
-						  <li class="title">Title 3</li>
-						  <li>Author</li>
-						  <li>Aenean ac lorem massa, porta fringilla diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pellentesque placerat mauris vel pellentesque.</li>
-				       </ul>
-					   <ul class="article">
-						  <li class="title">Title 4</li>
-						  <li>Author</li>
-						  <li>Aenean ac lorem massa, porta fringilla diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pellentesque placerat mauris vel pellentesque.</li>
-					   </ul>
+			 				 	
+			 	<div id="editStoryDiv">
+			 		<form name="editForm" action="javascript: void(0);" >
+			 			Title: <input id="editTitle" type="text" name="title"><br >
+			 			Link: <input id="editUrl" type="text" name="url"><br >
+			 			Topic: <input type="text" id="editTopic" name"topic"><br >
+			 			<input id="editStoryId" type="hidden" name="storyid" value="" >
+			 			<button id="submitEdit" value="submit" >Edit Story</button>
+			 			<button id="cancelEdit" > Cancel </button>
+			 		</form>
+			 	</div>
+			 	
+			 	<h2>News Feed</h2>
 			 </div>
+			 
 		</div>
   </body>
 </html>

@@ -1,4 +1,7 @@
 //News Story
+var autoID = 0;
+//Global variable that holds story object for current story being edited/commented/viewed
+var curStory;
 
 var Story = function (title, source, user, topic, lat, long, city, country) {
     this.title = title;
@@ -11,11 +14,12 @@ var Story = function (title, source, user, topic, lat, long, city, country) {
     this.country = country;
     this.discussion = [];
     this.poplarity = 0;
-    this.views = 0; 
-}
+    this.views = 0;
+    this.id = autoID++; 
+};
 
 /* Edit attributes of story, title/source/user are immutable */
-Story.prototype.editStory(topic, city, country) {
+Story.prototype.editStory = function(topic, city, country) {
     this.topic = topic;
     this.city = city;
     this.country = country;
@@ -40,9 +44,9 @@ Story.prototype.incViews = function() {
 
 /* Push a comment into the story's discussion array */
 Story.prototype.addComment = function(text, user, timestamp) {
-    c = new Comment(text, user, timestamp, this);
+    var c = new Comment(text, user, timestamp, this);
     this.discussion.push(c);
-    user.addComment(c);
+    this.user.addComment(c);
 }
 
 /* Remove a comment from the discussion, only if the user has selected it */
@@ -54,5 +58,4 @@ Story.prototype.deleteComment = function(curUser, comment) {
     }
     else return false; 
 }
-     
-    
+
