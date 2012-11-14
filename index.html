@@ -4,6 +4,8 @@
   	<link rel="StyleSheet" href="style.css" type="text/css" media="screen">
   	
   	<script src="js/jquery-1.8.2.js" type="text/javascript" ></script>
+  	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG99LFRdPbLDnwYdzBfOGkLq5JzbMEz80&sensor=false" type="text/javascript" ></script>
+  	<script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script>
 	<script src="js/User.js" type="text/javascript" ></script>
 	<script src="js/Story.js" type="text/javascript" ></script>
 	<script src="js/Comment.js" type="text/javascript" ></script>
@@ -23,7 +25,15 @@
     <![endif]-->
   </head>
   <body>
-<nav>
+		<div id="account">
+			<form name="loginForm" action="javascript: void(0);">
+				User Name: <input id="userName" type="text" name="userName">
+				Password: <input id="password" type="password" name="password">
+				<button id="submitLogin">Login</button>
+				<button id="register">Create Account</button>
+			</form> 
+		</div>
+		<nav>
 			 <ul>
 			 	<div class="menu">
 			 	 <li>Browse World News by:</li>		
@@ -94,20 +104,11 @@
 		<div id="content">
 			 
 			 <div id="map">
-			 		<iframe src="pics/time_95.jpg" > Map </iframe>
-			 		<div id="storyFormDiv">
-			 			<form name="storyForm" action="javascript: void(0);"> 
-			 				User: <input id="user" type="text" name="user"><br >
-			 				Title: <input id="title" type="text" name="title"><br >
-			 				Link: <input id="url" type="text" name="url"><br >
-			 				Topic: <input type="text" id="topic" name"topic"><br >
-			 				<button id="postStory" value="submit" >Submit Story</button>
-						</form>
-			 		</div>
-			 		
 			 </div>
 			 
+			 			 		
 			 <div id="discussion">
+			 	<button id="closeDiscussion">x</button>
 			 	<h2>Discussion</h2>
 			 	<form id="addComment">
 			 		Comment<input id="commentText" type="text">
@@ -120,7 +121,20 @@
 			 </div>
 			 
 			 <div id="newsFeed">
-			 				 	
+			 	
+				<div id="storyFormDiv">
+			 		<form name="storyForm" action="javascript: void(0);"> 
+			 			User: <input id="user" type="text" name="user"><br >
+			 			Title: <input id="title" type="text" name="title"><br >
+			 			Link: <input id="url" type="text" name="url"><br >
+			 			Topic: <input id="topic" type="text" name"topic"><br >
+			 			Location: <input id="location" type="text" name="location"><br >
+			 			<input id="lat" type="hidden" name="lat">
+			 			<input id="lng" type="hidden" name="lng">
+			 			<button id="postStory" value="submit" >Submit Story</button>
+					</form>
+			 	</div>
+			 					 				 	
 			 	<div id="editStoryDiv">
 			 		<form name="editForm" action="javascript: void(0);" >
 			 			Title: <input id="editTitle" type="text" name="title"><br >
@@ -131,7 +145,7 @@
 			 			<button id="cancelEdit" > Cancel </button>
 			 		</form>
 			 	</div>
-			 	
+			 	<button id="closeNewsFeed">x</button>
 			 	<h2>News Feed</h2>
 			 </div>
 			 

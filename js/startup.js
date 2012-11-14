@@ -2,24 +2,38 @@ $(document).ready( function () {
 	$('#storyFormDiv').hide();
 	$('#editStoryDiv').hide();
 	$('#addComment').hide();
+	gMapInit();
 	
-	//Global variable that holds story object for current story being edited/commented/viewed
-	/*var user = new User('kevin','','','');
-	curStory = new Story('title', 'source', user, 'topic', 0, 0, 'city', 'country');
-	add(curStory);
-	curStory.addComment('text', user, 0);
-	curStory.addComment('2nd comment', user, 0);*/
-	//pullStoryComments();
+	//Register button event handler sends registration request to users.php
+	$('#register').click( function() {
+		var name = $('#userName').val();
+		var pw = $('#password').val();
+		pw = CryptoJS.MD5(pw).toString();
+		$.post("php/users.php", { userName: name, password: pw, register: "yes" }, function(data) {
+			$('#account').append(data);
+		} );
+	});
 	
-	//Handles displaying create story form on mousing over the map
-	$('#map').hover( 
-		function(){
-			$('#storyFormDiv').show();
-		},
-		function(){
-			$('#storyFormDiv').hide();
-		} 
-	);
+	//Submit login form button event handler sends login request to users.php
+	$('#submitLogin').click( function() {
+		var name = $('#userName').val();
+		var pw = $('#password').val();
+		pw = CryptoJS.MD5(pw).toString();
+		$.post("php/users.php", { userName: name, password: pw, login: "yes" }, function(data) {
+			$('#account').append(data);
+		} );
+	});
+	
+	//Closes discussion div when exit button hit
+	$('#closeDiscussion').click( function() {
+		$('#map').css('width', '80%');
+		$('#discussion').css('width','0%');
+	} );
+	
+	$('#closeNewsFeed').click( function() {
+		$('#map').css('width', '100%');
+		$('#newsFeed').css('width','0%');
+	} );
 	
 	//Handles submit story button and adds the story to the news feed
 	$('#postStory').click( function() {
@@ -67,63 +81,65 @@ $(document).ready( function () {
 	// Slide down menu
 	
    	$(".hoverli1").hover(function () {
-    		$('ul.topic_menu').slideDown('medium');
+    		$('ul.topic_menu').slideDown('fast');
   		},function () {
-    		$('ul.topic_menu').slideUp('medium');
+    		$('ul.topic_menu').slideUp('fast');
   	});
 	
 	
    	$(".hoverli2").hover(
    		function () {
-     		$('ul.location_menu').slideDown('medium');
+     		$('ul.location_menu').slideDown('fast');
   		},
   		function () {
-     		$('ul.location_menu').slideUp('medium');
+     		$('ul.location_menu').slideUp('fast');
   		});
 	
 	
    	$(".hoverli3").hover(
    		function () {
-     		$('ul.newspaper_menu').slideDown('medium');
+     		$('ul.newspaper_menu').slideDown('fast');
   		},
   		function () {
-     		$('ul.newspaper_menu').slideUp('medium');
+     		$('ul.newspaper_menu').slideUp('fast');
   		}
 	);
 	
 	
    	$(".hoverli4").hover(
    		function () {
-     		$('ul.viewed_menu').slideDown('medium');
+     		$('ul.viewed_menu').slideDown('fast');
   		},
   		function () {
-     		$('ul.viewed_menu').slideUp('medium');
+     		$('ul.viewed_menu').slideUp('fast');
   		}
 	);
    	$(".hoverli5").hover(
    		function () {
-     		$('ul.recent_menu').slideDown('medium');
+     		$('ul.recent_menu').slideDown('fast');
   		},
   		function () {
-     		$('ul.recent_menu').slideUp('medium');
+     		$('ul.recent_menu').slideUp('fast');
   		}
 	);
 	$(".hoverli6").hover(
    		function () {
-     		$('ul.favorite_menu').slideDown('medium');
+
+     		$('ul.favorite_menu').slideDown('fast');
   		},
   		function () {
-     		$('ul.favorite_menu').slideUp('medium');
+     		$('ul.favorite_menu').slideUp('fast');
   		}
 	);
 	
 	
    	$(".hoverli7").hover(
    		function () {
-     		$('ul.login_menu').slideDown('medium');
+
+     		$('ul.login_menu').slideDown('fast');
   		},
   		function () {
-     		$('ul.login_menu').slideUp('medium');
+     		$('ul.login_menu').slideUp('fast');
   		}
 	);
 } );

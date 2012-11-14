@@ -62,6 +62,8 @@ function reloadButtonHandlers(){
 	$('.article').click( function() {
 		var id = jQuery(this).find('.editStory').val();
 		curStory = NewsFeed[id];
+		$('#map').css('width', '60%');
+		$('#discussion').css('width','20%');
 		$('#addComment').slideDown('slow');
 		pullStoryComments(id);
 		return false;

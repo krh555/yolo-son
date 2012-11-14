@@ -3,15 +3,14 @@ var autoID = 0;
 //Global variable that holds story object for current story being edited/commented/viewed
 var curStory;
 
-var Story = function (title, source, user, topic, lat, long, city, country) {
+var Story = function (title, source, user, topic, lat, long, location) {
     this.title = title;
     this.source = source;
     this.user = user;
     this.topic = topic;
     this.lat = lat;
     this.long = long;
-    this.city = city;
-    this.country = country;
+    this.location = location;
     this.discussion = [];
     this.poplarity = 0;
     this.views = 0;
