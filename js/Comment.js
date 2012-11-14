@@ -13,7 +13,7 @@ var Comment = function (text, user, timestamp, story) {
 }
 
 /* Edit changes text & returns true if comment was succesfully changed, otherwise the user is trying to change someone else's message and it fails */
-Comment.prototype.edit(text, curUser) {
+Comment.prototype.edit = function(text, curUser) {
     if(curUser == this.user) {
         this.text = text;
 	return true;
@@ -22,19 +22,19 @@ Comment.prototype.edit(text, curUser) {
 }
 
 /* Increase # of flags on comment and destroy reference if MAX_FLAGS exceeded */
-Comment.prototype.flag() { 
+Comment.prototype.flag = function() { 
     this.flags++;
-    if(this.flags > Comment.MAX_FLAGS)
-    	destroy this;
+    //if(this.flags > Comment.MAX_FLAGS)
+    //	destroy this;
 }
 
 /* (Dis)like changes the popularity of the comment accordingly */
-Comment.prototype.dislike() { 
+Comment.prototype.dislike = function() { 
     this.popularity--;
     this.user.decRating();
 }
 
-Comment.prototype.like() { 
+Comment.prototype.like = function() { 
     this.popularity++;
     this.user.addRating();
 }
