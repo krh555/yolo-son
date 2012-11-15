@@ -1,44 +1,8 @@
-/*Called when storyForm is submitted, creates new story object and places its contents in the news feed*/ 
-var createStory = function(){	
-	//Temporary variables for form input
-	var title = $('#title').val();
-	var url = $('#url').val();
-	var user = $('#user').val();
-	var topic = $('#topic').val();
-	var lat = $('#lat').val();
-	var lng = $('#lng').val();
-	var location = $('#location').val();
-	
-	//Add story properties to news feed
-	add( new Story( title, url, new User(user,'','',''), topic , lat, lng, location) );
-	//Add marker to map at clicked coordinates
-	var latlng = new google.maps.LatLng(lat, lng);
-	var marker = new google.maps.Marker( {position: latlng, map: map} );
-	//Creates an info window which pops up above the marker with information about it
-	var infoWindowContent = title + '<br >' 
-		+ user + '<br >' 
-		+ '<a href="url">' + url + '<a/>';
-	var infoWindowOptions = {
-    	content: infoWindowContent,
-        position: latlng
-    };
-    var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-	infoWindow.open(map, marker);
-	
-	//Clear story form
-	$('#title').val('');
-	$('#url').val('');
-	$('#user').val('');
-	$('#topic').val('');
-	$('#location').val('');
-	//Hide form
-	$('#storyFormDiv').hide();
-}
-
 //map holds the Google Map object
 var map;
 var geocoder;
-//Initializes Google Map options and places it in 'map' div container
+
+//Initializes Google Map w/options and places it in 'map' div container
 var gMapInit = function() {
 	//   https://developers.google.com/maps/documentation/javascript/tutorial  - For GMap documentation
     var mapOptions = {
@@ -51,21 +15,36 @@ var gMapInit = function() {
 	//Initialize a geocoder object to lookup countries in coordinates
 	geocoder = new google.maps.Geocoder();
 	
+	/* Event handler for clicks on the Google Map
+	 * A click causes the News Feed to pop up with a create story form.
+	 * The handler places the latitude,longitude for the story in hidden form
+	 * fields. The coords are geocoded and the country of origin is placed in
+	 * the form.
+	 */
 	google.maps.event.addListener(map, 'click', function(event) {
+		//Slide map over and show news feed
 		$('#map').css('width','80%');
 		$('#newsFeed').css('width','20%');	
+		//Show create story form
 		$('#storyFormDiv').slideDown('slow');
+		//Get lat,lng from event object (holds values related to click event)
+		//Place lat, lng in appropriate story form fields
 		$('#lat').val( event.latLng.lat() );
 		$('#lng').val( event.latLng.lng() );
 		//Reverse geocode coordinates to find country of origin
 		geocoder.geocode( {'latLng': event.latLng}, function(results, status) {
       		if (status == google.maps.GeocoderStatus.OK) {
+      			//Get least specific address relating to coords (country)
+      			//TODO adjust address specificty according to zoom level on map
         		var lastAddr = results.length-1;
         		if ( results[lastAddr] ) {
           			$('#location').val(results[lastAddr].formatted_address);
-        		}
-      		} else {
+        		}        	
+      		}
+      		//Geocode failed, most likely b/c coords are in body of water 
+      		else {
         		alert("Location not associated with a land mass");
+        		$('#location').val("");
       		}
    		});
 	});
