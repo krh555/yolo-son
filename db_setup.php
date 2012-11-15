@@ -31,46 +31,47 @@
 		
 		//Recreate database tables query strings 
 		$users = "CREATE TABLE users(
-			id INTEGER NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), 
-			name VARCHAR(32) NOT NULL, 
-			salt VARCHAR(5) NOT NULL, 
-			password VARCHAR(32) NOT NULL,
-			account_created date,
-			last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			num_posts INTEGER DEFAULT 0,
-			likes INTEGER DEFAULT 0
+			id 						INTEGER 	NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), 
+			name					VARCHAR(32) UNIQUE NOT NULL, 
+			salt 					VARCHAR(5) 	NOT NULL, 
+			password 				VARCHAR(32) NOT NULL,
+			account_created		 	DATE,
+			last_activity 			TIMESTAMP 	DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			num_posts 				INTEGER 	DEFAULT 0,
+			likes 					INTEGER 	DEFAULT 0
 			);";
 		$stories = "CREATE TABLE stories(
-			id INTEGER NOT NULL AUTO_INCREMENT, PRIMARY KEY(id),
-			user_id INTEGER NOT NULL,
-			url VARCHAR(255) NOT NULL,
-			lat DECIMAL(7,4) NOT NULL,
-			lng DECIMAL(7,4) NOT NULL,
-			location VARCHAR(255) NOT NULL,
-			num_comments INTEGER DEFAULT 0,
-			posted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			likes INTEGER DEFAULT 0,
-			flags INTEGER DEFAULT 0
+			id 				INTEGER		 NOT NULL AUTO_INCREMENT, PRIMARY KEY(id),
+			user_id 		INTEGER		 NOT NULL,
+			title 			VARCHAR(255) NOT NULL,
+			url 			VARCHAR(255) NOT NULL,
+			lat 			DECIMAL(7,4) NOT NULL,
+			lng 			DECIMAL(7,4) NOT NULL,
+			location 		VARCHAR(255) NOT NULL,
+			num_comments 	INTEGER 	 DEFAULT 0,
+			posted_on 		TIMESTAMP 	 DEFAULT CURRENT_TIMESTAMP,
+			likes 			INTEGER		 DEFAULT 0,
+			flags 			INTEGER		 DEFAULT 0
 			);";
 		$comments = "CREATE TABLE comments (
-	  		id int(11) NOT NULL AUTO_INCREMENT,
-	  		user_id int(11) NOT NULL,
-	  		story_id int(11) NOT NULL,
-	  		content text NOT NULL,
-	  		flags int(11) DEFAULT 0,
-	  		likes int(11) DEFAULT 0,
-	  		PRIMARY KEY (id)
+	  		id		 INTEGER NOT NULL AUTO_INCREMENT,
+	  		PRIMARY KEY (id),
+	  		user_id	 INTEGER NOT NULL,
+	  		story_id INTEGER	 NOT NULL,
+	  		content  TEXT	 NOT NULL,
+	  		flags	 INTEGER DEFAULT 0,
+	  		likes	 INTEGER DEFAULT 0
 		);";
 		$storyTopics = "CREATE TABLE storyTopics (
-	  		id int(11) NOT NULL AUTO_INCREMENT,
-	  		story_id int(11) NOT NULL,
-	  		topic_id int(11) NOT NULL,
-	  		PRIMARY KEY (id)
+	  		id		 INTEGER NOT NULL AUTO_INCREMENT,
+	  		PRIMARY KEY (id),
+	  		story_id INTEGER NOT NULL,
+	  		topic_id INTEGER NOT NULL
 		);";
 		$topics = "CREATE TABLE topics (
-	  		id int(11) NOT NULL AUTO_INCREMENT,
-	  		name varchar(32) NOT NULL,
-	  		PRIMARY KEY (id)
+	  		id	 INTEGER NOT NULL AUTO_INCREMENT,
+	  		PRIMARY KEY (id),
+	  		name VARCHAR(32) NOT NULL	  		
 		);";
 		
 		//Execute create table statements and print errors if any
