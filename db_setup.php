@@ -1,31 +1,33 @@
 <?php
     if( strcmp($_SERVER['PATH_INFO'], "/run") == 0 ){
 	    //Create link to database
-		$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
+		$mysqli = new mysqli("127.0.0.1", "root", "");
+		echo mysqli_error($mysqli);
 		//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
 		$mysqli->set_charset("utf8");
+		
+		//Create database using UTF-8 international character encoding scheme
+		$mysqli->query("CREATE DATABASE IF NOT EXISTS news_map_dev CHARACTER SET utf8 COLLATE utf8_general_ci;");
+		echo mysqli_error($mysqli);
+		//Use news_map_dev database
+		$mysqli->query("USE news_map_dev;");
+		echo mysqli_error($mysqli);
+		
 		
 		//Drop all existing tables and print errors if any
 		//
 		//!!!!WARNING!!!! THIS WILL REMOVE ALL DATA FROM CURRENT TABLES
 		//
-		$drop_users = "DROP TABLE IF EXISTS users;";
+		$mysqli->query("DROP TABLE IF EXISTS users;");
 		echo mysqli_error($mysqli);
-		$drop_stories = "DROP TABLE IF EXISTS stories;";
+		$mysqli->query("DROP TABLE IF EXISTS stories;");
 		echo mysqli_error($mysqli);
-		$drop_comments = "DROP TABLE IF EXISTS comments;";
+		$mysqli->query("DROP TABLE IF EXISTS comments;");
 		echo mysqli_error($mysqli);
-		$drop_storyTopics = "DROP TABLE IF EXISTS storyTopics;";
+		$mysqli->query("DROP TABLE IF EXISTS storyTopics;");
 		echo mysqli_error($mysqli);
-		$drop_topics = "DROP TABLE IF EXISTS topics;";
+		$mysqli->query("DROP TABLE IF EXISTS topics;");
 		echo mysqli_error($mysqli);
-		
-		//Execute drop table statements
-		$mysqli->query($drop_users);
-		$mysqli->query($drop_stories);
-		$mysqli->query($drop_comments);
-		$mysqli->query($drop_storyTopics);
-		$mysqli->query($drop_topics);
 		
 		//Recreate database tables query strings 
 		$users = "CREATE TABLE users(
@@ -82,12 +84,14 @@
 		echo mysqli_error($mysqli);
 		$mysqli->query($topics);
 		echo mysqli_error($mysqli);
+		
+		//Exit information
 		echo "Script finished report/correct errors if any were printed";
 	}
 	else{
-		echo 'Install mysql and create an account with name="root" and password=""(no password), then create a database called "news_map_dev" <br > ';
-		echo "This script creates the required database tables for the application<br ><br >";
+		echo 'Install mysql and create an account with name="root" and password=""(no password)<br > ';
+		echo "This script creates the required database, named 'news_map_dev', and tables for the application<br ><br >";
 		echo "WARNING: ALL TABLES IN THE news_map_dev DATABASE WILL BE DELETED AND RECREATED LOSING ALL STORED DATA<br ><br >";
-		echo 'To run the script call it with the path "/run" i.e. ".../dbsetup.php/run" '; 
+		echo 'To run the script call it with the path "/run" i.e. ".../db_setup.php/run" '; 
 	}	
 ?>
