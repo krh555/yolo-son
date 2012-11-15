@@ -1,6 +1,6 @@
 var NewsFeed = new Array();
 
-function add( story ){
+function pushToNewsFeed( story ){
 	//Add a new story object to news feed array
 	NewsFeed.push(story);
 	
@@ -9,12 +9,12 @@ function add( story ){
 	
 	//Add story properties to list
 	$new_story.append( '<li class="title" >' + story.title + '</li>' );
-	$new_story.append( '<li>' + story.user.username + '</li>' );
-	$new_story.append( '<li>' + story.source + '</li>' );
-	$new_story.append( '<li>' + story.topic + '</li>' );
+	$new_story.append( '<li>' + story.username + '</li>' );
+	$new_story.append( '<li>' + story.url + '</li>' );
+	$new_story.append( '<li>' + story.topics + '</li>' );
 	$new_story.append( '<button class="editStory" value="' + story.id +'" > Edit</button>' );
-	//$new_story.append( '<button class="comment" value="' + story.id +'" > Add comment </button>' );
-	//$new_story.append( '<button value="' + story.id +'" > Like </button>' );
+	$new_story.append( '<button class="comment" value="' + story.id +'" > Comments </button>' );
+	$new_story.append( '<button value="' + story.id +'" > Like </button>' );
 	
 	//Append new story to the feed
 	$('#newsFeed').append( $new_story );
@@ -38,11 +38,12 @@ function edit( storyid ){
 	var listID = '#story' + storyid;
 	$(listID).empty();
 	$(listID).append('<li class="title" >' + story.title + '</li>' );
-	$(listID).append('<li>' + story.user.username + '</li>' );
-	$(listID).append('<li>' + story.source + '</li>' );
-	$(listID).append('<li>' + story.topic + '</li>' );
+	$(listID).append('<li>' + story.username + '</li>' );
+	$(listID).append('<li>' + story.url + '</li>' );
+	$(listID).append('<li>' + story.topics + '</li>' );
 	$(listID).append( '<button class="editStory" value="' + story.id +'" > Edit </button>' );
-	//$(listID).append( '<button value="' + story.id +'" > Like</button>' );
+	$(listID).append( '<button class="comment" value="' + story.id +'" > Comments </button>' );
+	$(listID).append( '<button class="like" value="' + story.id +'" > Like </button>' );
 		
 	reloadButtonHandlers();
 		
@@ -59,8 +60,8 @@ function reloadButtonHandlers(){
 		$('#editStoryDiv').slideDown('slow');
 		return false;
 	} );
-	$('.article').click( function() {
-		var id = jQuery(this).find('.editStory').val();
+	$('.comment').click( function() {
+		var id = jQuery(this).val();
 		curStory = NewsFeed[id];
 		$('#map').css('width', '60%');
 		$('#discussion').css('width','20%');
