@@ -12,6 +12,9 @@ var pullStories = function() {
 			}	
 			pushToNewsFeed(storyObjects);			
 		  	resetMarkers(storyObjects);
+		  },
+		  error: function(jqXHR, txt) {
+		  	alert(txt);
 		  }
 	});
 }
@@ -74,39 +77,3 @@ function edit( storyid ){
 	$('#editUrl').val('');
 	$('#editTopic').val('');
 }
-
-function reloadButtonHandlers(){
-	//Removes current click handlers and places new ones
-	//Current handlers must be turned off or the click 
-	//event will be called several times
-	$('.editStory').off('click');
-	$('.editStory').click( function() {
-		var id = $(this).val();
-		$('#editStoryId').val(id);
-		$('#editStoryDiv').slideDown('slow');
-		return false;
-	} );
-	$('.comment').off('click');
-	$('.comment').click( function() {
-		var story_id = $(this).val();
-		$('#submitComment').val(story_id);
-		//curStory = NewsFeed[story_id];
-		$('#map').css('width', '60%');
-		$('#discussion').css('width','20%');
-		$('#addComment').slideDown('slow');
-		pullStoryComments(story_id);
-		return false;
-	} );
-	$('.like').off('click');
-	$('.like').click( function() {
-		var id = $(this).val();
-		$.post('php/stories.php', { action: 'like', id: id });	
-	});
-	$('.flag').off('click');
-	$('.flag').click( function() {
-		var id = $(this).val();
-		$.post('php/stories.php', { action: 'flag', id: id });	
-	});
-}
-
-
