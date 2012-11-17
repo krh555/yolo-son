@@ -32,7 +32,7 @@
 		//Recreate database tables query strings 
 		$users = "CREATE TABLE users(
 			id 						INTEGER 	NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), 
-			name					VARCHAR(32) UNIQUE NOT NULL, 
+			username				VARCHAR(32) UNIQUE NOT NULL, 
 			salt 					VARCHAR(5) 	NOT NULL, 
 			password 				VARCHAR(32) NOT NULL,
 			account_created		 	DATE,

@@ -8,8 +8,7 @@ User = function (username, first, last, email) {
     
     this.stories = [];
     this.comments = []; 
-    this.rating = 0
-    
+    this.rating = 0;
 }
 
 /*  add/decRating appropriately changes the poster's rating points to reflect the likes and dislikes of his stories and comments from other users */

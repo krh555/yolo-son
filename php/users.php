@@ -6,7 +6,7 @@
  * Returns/echoes string to be displayed to client indicating result of action  
  */ 
  
- /* TO DO
+ /* TODO
   * 
   * -Add error  handling code to return HTTP error code responses
   * -Add logout action 
@@ -50,7 +50,7 @@
 			//Get current date in format matching MySQL 'DATE' type (yyyy-mm-dd)
 			$date = date('Y-m-d');
 			//Create SQL query to insert user
-			$insertUser = "INSERT INTO users (name, password, salt, account_created) VALUES ('" . $name . "','" . $hashedpw . "','" . $salt . "','" . $date . "');" ;
+			$insertUser = "INSERT INTO users (username, password, salt, account_created) VALUES ('" . $name . "','" . $hashedpw . "','" . $salt . "','" . $date . "');" ;
 			//Execute query and handle errors
 			if( !($result = $mysqli->query($insertUser)) ){
 				//Name already taken
@@ -59,7 +59,7 @@
 			else{
 				//Account succesfully created, get its ID and put it in a session variable to maintain state with client
 				//Execute query and store result object
-				$result = $mysqli->query("SELECT id FROM users WHERE name = '" . $name . "';");
+				$result = $mysqli->query("SELECT id FROM users WHERE username = '" . $name . "';");
 				//Get the lone row of the result object in array form
 				$row = $result->fetch_array(MYSQLI_NUM);
 				//Store user ID as a session variable so it can be automatically stored with posted stories/comments
@@ -75,7 +75,7 @@
 			 * Authenticate or return errors
 			 */
 			//Find user with given name
-			$result = $mysqli->query("SELECT * FROM users WHERE name = '" . $name . "';");
+			$result = $mysqli->query("SELECT * FROM users WHERE username = '" . $name . "';");
 			//Convert result into associative array (key->value pairs)
 			$row = $result->fetch_array(MYSQLI_ASSOC);
 			//Hash given password using stored salt
