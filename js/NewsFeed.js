@@ -1,5 +1,18 @@
 var NewsFeed = new Array();
 
+var retrieveStories = function() {
+	$.ajax({
+		  url: "php/stories.php",
+		  type: "GET",
+		  dataType: "json",
+		  success: function(stories) {
+		  	for(var i in stories){			
+				pushToNewsFeed( new Story(stories[i], 0) );
+			}	
+		  }
+	});
+}
+
 function pushToNewsFeed( story ){
 	//Add a new story object to news feed array
 	NewsFeed.push(story);
@@ -8,9 +21,8 @@ function pushToNewsFeed( story ){
 	var $new_story = $('<ul id="story' + story.id + '" class="article"></ul>');
 	
 	//Add story properties to list
-	$new_story.append( '<li class="title" >' + story.title + '</li>' );
+	$new_story.append( '<li class="title" ><a target="_blank" href="' + story.url + '">' + story.title + '</a></li>' );
 	$new_story.append( '<li>' + story.username + '</li>' );
-	$new_story.append( '<li>' + story.url + '</li>' );
 	$new_story.append( '<li>' + story.topics + '</li>' );
 	$new_story.append( '<button class="editStory" value="' + story.id +'" > Edit</button>' );
 	$new_story.append( '<button class="comment" value="' + story.id +'" > Comments </button>' );

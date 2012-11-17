@@ -17,31 +17,47 @@ var Story = function (id, user_id, username, title, url, topics, lat, lng, locat
     this.lng = lng;
     this.location = location;
     this.discussion = [];
-    this.poplarity = 0;
-    this.views = 0; 
+    this.num_comments = 0;
+    this.likes = 0; 
+};
+var Story = function(json, topics){
+	json = $.parseJSON(json);
+	for( var key in json){
+		this[key] = json[key];
+	}
+	this.topics = "topic";
 };
 
-/* Called when storyForm is submitted
- * creates new story object and places its contents in the news feed
+/* Called when storyForm is submitted, creates new story object,
+ * inserts record for it in db and places marker on the map
  */ 
-var createStory = function(){	
+var submitStory = function(){	
 	//Temporary variables for form input
 	var title = $('#title').val();
 	var url = $('#url').val();
-	var user = $('#user').val();
 	var topic = $('#topic').val();
 	var lat = $('#lat').val();
 	var lng = $('#lng').val();
 	var location = $('#location').val();
+	//Check if any required fields are empty
+	if ( title === "" || url === "" || location === "" ){
+		alert("Make sure all form fields are filled out.");
+		return;
+	}
+	//Put form data into an array and pass it to stories.php script
+	//to create new database story record
+	//TODO return array containing inserted record values
+	$.post( "php/stories.php", $("#storyForm").serialize() );
 	
 	//Add story properties to news feed
-	pushToNewsFeed( new Story(0, 0, user, title, url, topic, lat, lng, location) );
+	//TODO init Story object with array returned from story creation
+	//pushToNewsFeed( new Story(0, 0, "user", title, url, topic, lat, lng, location) );
 	//Add marker to map at clicked coordinates
 	var latlng = new google.maps.LatLng(lat, lng);
 	var marker = new google.maps.Marker( {position: latlng, map: map} );
 	//Creates an info window which pops up above the marker with information about it
 	var infoWindowContent = title + '<br >' 
-		+ user + '<br >' 
+		+ 'user' + '<br >' 
 		+ '<a href="url">' + url + '<a/>';
 	var infoWindowOptions = {
     	content: infoWindowContent,
@@ -50,11 +66,10 @@ var createStory = function(){
     var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 	//Opens info window at the location of the given marker (story just added)
 	infoWindow.open(map, marker);
-	
+
 	//Clear story form
 	$('#title').val('');
 	$('#url').val('');
-	$('#user').val('');
 	$('#topic').val('');
 	$('#lat').val('');
 	$('#lng').val('');

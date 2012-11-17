@@ -24,6 +24,7 @@ var gMapInit = function() {
 	google.maps.event.addListener(map, 'click', function(event) {
 		//Slide map over and show news feed
 		$('#map').css('width','80%');
+		$('#discussion').css('width','0%');
 		$('#newsFeed').css('width','20%');	
 		//Show create story form
 		$('#storyFormDiv').slideDown('slow');
@@ -39,7 +40,8 @@ var gMapInit = function() {
         		var lastAddr = results.length-1;
         		if ( results[lastAddr] ) {
           			$('#location').val(results[lastAddr].formatted_address);
-        		}        	
+        		}
+        		$('#title').focus();        	
       		}
       		//Geocode failed, most likely b/c coords are in body of water 
       		else {
