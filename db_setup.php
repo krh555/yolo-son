@@ -56,11 +56,12 @@
 		$comments = "CREATE TABLE comments (
 	  		id		 INTEGER NOT NULL AUTO_INCREMENT,
 	  		PRIMARY KEY (id),
-	  		user_id	 INTEGER NOT NULL,
-	  		story_id INTEGER	 NOT NULL,
-	  		content  TEXT	 NOT NULL,
-	  		flags	 INTEGER DEFAULT 0,
-	  		likes	 INTEGER DEFAULT 0
+	  		user_id	  INTEGER NOT NULL,
+	  		story_id  INTEGER NOT NULL,
+	  		content   TEXT	 NOT NULL,
+	  		posted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	  		flags	  INTEGER DEFAULT 0,
+	  		likes	  INTEGER DEFAULT 0
 		);";
 		$storyTopics = "CREATE TABLE storyTopics (
 	  		id		 INTEGER NOT NULL AUTO_INCREMENT,

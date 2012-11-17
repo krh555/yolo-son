@@ -88,12 +88,13 @@ function reloadButtonHandlers(){
 	} );
 	$('.comment').off('click');
 	$('.comment').click( function() {
-		var id = $(this).val();
-		curStory = NewsFeed[id];
+		var story_id = $(this).val();
+		$('#submitComment').val(story_id);
+		//curStory = NewsFeed[story_id];
 		$('#map').css('width', '60%');
 		$('#discussion').css('width','20%');
 		$('#addComment').slideDown('slow');
-		pullStoryComments(id);
+		pullStoryComments(story_id);
 		return false;
 	} );
 	$('.like').off('click');

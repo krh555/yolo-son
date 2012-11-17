@@ -13,6 +13,7 @@
    
 	//Start a php session to access client state/session variables
 	session_start();
+	$MAX_FLAGS = 10;
 	//Create link to database
 	$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
 	//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
@@ -31,8 +32,14 @@
 				case "flag":
 					$update = "UPDATE stories
 							   SET flags = flags+1
-							   WHERE id = " . $_POST['id'] . ";";
+							   WHERE id = " . $_POST['id'] . ";";							
 					$mysqli->query($update);
+					$result = $mysqli->query("SELECT flags FROM stories WHERE id =" . $_POST['id'] . ";");
+					$row = $result->fetch_array(MYSQLI_NUM);
+					//Delete story if it is over its flagging capacity
+					if( $row[0] > $MAX_FLAGS ){
+						$mysqli->query("DELETE FROM stories WHERE id =" . $_POST['id'] . ";");
+					}
 					break;
 	 		}
 		}

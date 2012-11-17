@@ -2,14 +2,20 @@
 
 Comment.MAX_FLAGS = 10;
 
-var Comment = function (text, user, timestamp, story) {
+var Comment = function (text, username, timestamp, story) {
     this.text = text;
-    this.user = user;
+    this.username = username;
     this.timestamp = timestamp;
     this.story = story;
 
     this.flags = 0;
     this.popularity = 0;
+}
+var Comment = function (json) {
+	json = $.parseJSON(json);
+	for( var key in json){
+		this[key] = json[key];
+	}
 }
 
 /* Edit changes text & returns true if comment was succesfully changed, otherwise the user is trying to change someone else's message and it fails */

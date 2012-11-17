@@ -70,11 +70,10 @@ $(document).ready( function () {
 	} );
 	
 	$('#submitComment').click( function() {
-		var txt = $('#commentText').val();
-		var user = $('#commentAuthor').val();
-		//var timestamp = event.timeStamp;
-		curStory.addComment(txt, new User(user,'','',''), 0);
-		pullStoryComments();
+		text = $('#commentText').val();
+		story_id = $(this).val();
+		$.post('php/comments.php', { story_id: story_id, content: text, action: "submit"} );		
+		pullStoryComments(story_id);
 		$('#commentText').val('');
 		$('#commentAuthor').val('');
 		return false;

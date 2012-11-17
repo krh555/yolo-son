@@ -1,11 +1,18 @@
-//Put comments from story comments array into list
-function pullStoryComments(){
+var pullStoryComments = function(story_id){	
 	$('#comments').empty();
-	for(var i = 0; i < curStory.discussion.length; i++){
-		appendComment( curStory.discussion[i] );
-	}
-}
-
-function appendComment( comment ){
-	$('#comments').append('<li>' + comment.text + '<p>From ' + comment.user.username + '</p></li>');
+	$.ajax({
+	  url: "php/comments.php",
+	  data: { story_id: story_id } ,
+	  type: "GET",
+	  dataType: "json",
+	  success: function(comments) {  
+	  	commentObjects = new Array();
+	  	for(var i in comments){			
+			commentObjects.push( new Comment(comments[i]) );
+			$('#comments').append('<li>' + commentObjects[i].content + '<p>From ' + commentObjects[i].username + '</p></li>');
+		}	
+	  },
+	  error: function(jqXHR, txt) {
+	  }
+	});	
 }
