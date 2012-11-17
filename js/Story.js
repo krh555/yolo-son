@@ -50,23 +50,8 @@ var submitStory = function(){
 	$.post( "php/stories.php", $("#storyForm").serialize() );
 	
 	//Add story properties to news feed
-	//TODO init Story object with array returned from story creation
-	//pushToNewsFeed( new Story(0, 0, "user", title, url, topic, lat, lng, location) );
-	//Add marker to map at clicked coordinates
-	var latlng = new google.maps.LatLng(lat, lng);
-	var marker = new google.maps.Marker( {position: latlng, map: map} );
-	//Creates an info window which pops up above the marker with information about it
-	var infoWindowContent = title + '<br >' 
-		+ 'user' + '<br >' 
-		+ '<a href="url">' + url + '<a/>';
-	var infoWindowOptions = {
-    	content: infoWindowContent,
-        position: latlng
-    };
-    var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-	//Opens info window at the location of the given marker (story just added)
-	infoWindow.open(map, marker);
-
+	pullStories();
+	
 	//Clear story form
 	$('#title').val('');
 	$('#url').val('');

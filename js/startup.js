@@ -3,7 +3,7 @@ $(document).ready( function () {
 	$('#editStoryDiv').hide();
 	$('#addComment').hide();
 	gMapInit();
-	retrieveStories();
+	pullStories();
 	
 	/* TODO
 	* -Fix error handling for login/register ajax requests 

@@ -20,31 +20,49 @@
 	
  	//Check request method
  	if( strcmp($_SERVER['REQUEST_METHOD'], "POST") == 0 ){
- 		//Sanitize all parameters to prevent SQL injection
-		$title = mysqli_real_escape_string( $mysqli, $_POST['title'] );
-		$url = mysqli_real_escape_string( $mysqli, $_POST['url'] );
-		$lat = mysqli_real_escape_string( $mysqli, $_POST['lat'] );
-		$lng = mysqli_real_escape_string( $mysqli, $_POST['lng'] );
-		$location = mysqli_real_escape_string( $mysqli, $_POST['location'] );
-		//Check if path variable is null, if so create a new story record
-		if( strcmp($_SERVER['PATH_INFO'], "") == 0 ){			
-			//Create query string with form params	
-			$insert_story = "INSERT INTO stories (user_id, title, url, lat, lng, location) VALUES('" .
-				$_SESSION['user_id'] . "', '" .
-				$title . "', '" .
-				$url . "', '" .
-				$lat . "', '" .
-				$lng . "', '" .
-				$location . "						
-			');";
-			$mysqli->query($insert_story);
+	 	if( isset($_POST['action']) ){
+	 		switch($_POST['action']) {
+				case "like":
+					$update = "UPDATE stories
+							   SET likes = likes+1
+							   WHERE id = " . $_POST['id'] . ";";
+					$mysqli->query($update);
+					break;
+				case "flag":
+					$update = "UPDATE stories
+							   SET flags = flags+1
+							   WHERE id = " . $_POST['id'] . ";";
+					$mysqli->query($update);
+					break;
+	 		}
+		}
+		else {
+			//Sanitize all parameters to prevent SQL injection
+			$title = mysqli_real_escape_string( $mysqli, $_POST['title'] );
+			$url = mysqli_real_escape_string( $mysqli, $_POST['url'] );
+			$lat = mysqli_real_escape_string( $mysqli, $_POST['lat'] );
+			$lng = mysqli_real_escape_string( $mysqli, $_POST['lng'] );
+			$location = mysqli_real_escape_string( $mysqli, $_POST['location'] );
+			//Check if path variable is null, if so create a new story record
+			if( strcmp($_SERVER['PATH_INFO'], "") == 0 ){			
+				//Create query string with form params	
+				$insert_story = "INSERT INTO stories (user_id, title, url, lat, lng, location) VALUES('" .
+					$_SESSION['user_id'] . "', '" .
+					$title . "', '" .
+					$url . "', '" .
+					$lat . "', '" .
+					$lng . "', '" .
+					$location . "						
+				');";
+				$mysqli->query($insert_story);
+			}
 		}
 	}
 	elseif( strcmp($_SERVER['REQUEST_METHOD'], "GET") == 0 ) {
 		$query = "SELECT S.*, U.username 
 				 FROM stories S, users U 
 				 WHERE U.id = S.user_id
-				 ORDER BY likes;";
+				 ORDER BY likes DESC;";
 		$result = $mysqli->query($query);
 		//Array which holds JSON encoded story objects to be returned to client
 		$json_stories = array();

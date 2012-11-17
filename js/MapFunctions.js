@@ -1,6 +1,37 @@
 //map holds the Google Map object
 var map;
 var geocoder;
+var markers = new Array();
+var infoWindows = new Array();
+
+var resetMarkers = function(stories) {
+	markers.length = 0;
+	infoWindows.length = 0;
+	for(i in stories){
+		story = stories[i];
+		latlng = new google.maps.LatLng(story.lat, story.lng);
+		marker = new google.maps.Marker( {position: latlng, map: map} );
+		markers.push(marker);
+		//Creates an info window which pops up above the marker with information about it
+		infoWindowContent = story.title + '<br >' 
+			+ story.username + '<br >' 
+			+ '<a target="_blank" href="' + story.url +'">' + story.url + '<a/>';
+		infoWindowOptions = {
+	    	content: infoWindowContent,
+	        position: latlng
+	    };
+	    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+	    infoWindows.push(infoWindow);		
+		addMarkerListener(markers[i], infoWindows[i]);
+	}
+}
+
+var addMarkerListener = function(marker, infoWindow){
+	//Opens info window at the location of the given marker (story just added)
+	google.maps.event.addListener(marker, 'click', function() {
+		infoWindow.open(map, marker);
+	});	
+}
 
 //Initializes Google Map w/options and places it in 'map' div container
 var gMapInit = function() {

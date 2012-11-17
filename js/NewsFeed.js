@@ -1,36 +1,45 @@
 var NewsFeed = new Array();
 
-var retrieveStories = function() {
+var pullStories = function() {
 	$.ajax({
 		  url: "php/stories.php",
 		  type: "GET",
 		  dataType: "json",
-		  success: function(stories) {
+		  success: function(stories) {		  
+		  	storyObjects = new Array();
 		  	for(var i in stories){			
-				pushToNewsFeed( new Story(stories[i], 0) );
+				storyObjects.push( new Story(stories[i], 0) );	
 			}	
+			pushToNewsFeed(storyObjects);			
+		  	resetMarkers(storyObjects);
 		  }
 	});
 }
 
-function pushToNewsFeed( story ){
-	//Add a new story object to news feed array
-	NewsFeed.push(story);
-	
-	//Create new list wrapper for story
-	var $new_story = $('<ul id="story' + story.id + '" class="article"></ul>');
-	
-	//Add story properties to list
-	$new_story.append( '<li class="title" ><a target="_blank" href="' + story.url + '">' + story.title + '</a></li>' );
-	$new_story.append( '<li>' + story.username + '</li>' );
-	$new_story.append( '<li>' + story.topics + '</li>' );
-	$new_story.append( '<button class="editStory" value="' + story.id +'" > Edit</button>' );
-	$new_story.append( '<button class="comment" value="' + story.id +'" > Comments </button>' );
-	$new_story.append( '<button value="' + story.id +'" > Like </button>' );
-	
-	//Append new story to the feed
-	$('#newsFeed').append( $new_story );
-	
+function pushToNewsFeed( stories ){
+	$('#stories').empty();
+	for(var i in stories){
+		story = stories[i];
+		//Add a new story object to news feed array
+		NewsFeed.push(story);
+		
+		//Create new list wrapper for story
+		var $new_story = $('<ul id="story' + story.id + '" class="article"></ul>');
+		
+		//Add story properties to list
+		$new_story.append( '<li class="title" ><a target="_blank" href="' + story.url + '">' + story.title + '</a></li>' );
+		$new_story.append( '<li>' + story.username + '</li>' );
+		$new_story.append( '<li>' + story.topics + '</li>' );
+		$new_story.append( '<li>' + story.likes + ' likes</li>' );
+		$new_story.append( '<li>' + story.num_comments + ' comments</li>' );
+		$new_story.append( '<button class="editStory" value="' + story.id +'" > Edit</button>' );
+		$new_story.append( '<button class="comment" value="' + story.id +'" > Comments </button>' );
+		$new_story.append( '<button class="like" value="' + story.id +'" > Like </button>' );
+		$new_story.append( '<button class="flag" value="' + story.id +'" > Mark as inappropriate </button>' );
+		
+		//Append new story to the feed
+		$('#stories').append( $new_story );
+	}
 	reloadButtonHandlers();
 }
 
@@ -56,6 +65,7 @@ function edit( storyid ){
 	$(listID).append( '<button class="editStory" value="' + story.id +'" > Edit </button>' );
 	$(listID).append( '<button class="comment" value="' + story.id +'" > Comments </button>' );
 	$(listID).append( '<button class="like" value="' + story.id +'" > Like </button>' );
+	$(listID).append( '<button class="flag" value="' + story.id +'" > Mark as inappropriate </button>' );
 		
 	reloadButtonHandlers();
 		
@@ -66,14 +76,19 @@ function edit( storyid ){
 }
 
 function reloadButtonHandlers(){
+	//Removes current click handlers and places new ones
+	//Current handlers must be turned off or the click 
+	//event will be called several times
+	$('.editStory').off('click');
 	$('.editStory').click( function() {
 		var id = $(this).val();
 		$('#editStoryId').val(id);
 		$('#editStoryDiv').slideDown('slow');
 		return false;
 	} );
+	$('.comment').off('click');
 	$('.comment').click( function() {
-		var id = jQuery(this).val();
+		var id = $(this).val();
 		curStory = NewsFeed[id];
 		$('#map').css('width', '60%');
 		$('#discussion').css('width','20%');
@@ -81,6 +96,16 @@ function reloadButtonHandlers(){
 		pullStoryComments(id);
 		return false;
 	} );
+	$('.like').off('click');
+	$('.like').click( function() {
+		var id = $(this).val();
+		$.post('php/stories.php', { action: 'like', id: id });	
+	});
+	$('.flag').off('click');
+	$('.flag').click( function() {
+		var id = $(this).val();
+		$.post('php/stories.php', { action: 'flag', id: id });	
+	});
 }
 
 
