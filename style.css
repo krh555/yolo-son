@@ -47,7 +47,7 @@ nav ul li{
 #map{
  position: relative;
  float:left;
- width: 100%;
+ width: 80%;
  height: 100%;
  }
  
@@ -74,7 +74,7 @@ nav ul li{
 #newsFeed {
  color: #282731;
  float: right;
- width: 0%;
+ width: 20%;
  height: 100%;
  background-color: #8a87a0; 
  overflow: scroll;

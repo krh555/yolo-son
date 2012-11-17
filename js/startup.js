@@ -3,6 +3,7 @@ $(document).ready( function () {
 	$('#editStoryDiv').hide();
 	$('#addComment').hide();
 	gMapInit();
+	retrieveStories();
 	
 	/* TODO
 	* -Fix error handling for login/register ajax requests 
@@ -57,7 +58,7 @@ $(document).ready( function () {
 	
 	//Handles submit story button and adds the story to the news feed
 	$('#postStory').click( function() {
-		createStory();
+		submitStory();
 		return false;
 	} );
 	
@@ -84,7 +85,7 @@ $(document).ready( function () {
 		return false;
 	} );
 	
-			$('ul.topic_menu').hide();
+		$('ul.topic_menu').hide();
 		$('ul.location_menu').hide();
 		$('ul.newspaper_menu').hide();
 		$('ul.viewed_menu').hide();
