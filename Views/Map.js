@@ -1,13 +1,14 @@
 //map holds the Google Map object
 var map;
 var geocoder;
+var curMarker = new google.maps.Marker();
 var markers = new Array();
 var infoWindows = new Array();
 
 var resetMarkers = function(stories) {
 	markers.length = 0;
 	infoWindows.length = 0;
-	for(i in stories){
+	for(var i = 0; i < stories.length ; i += 1 ){
 		story = stories[i];
 		latlng = new google.maps.LatLng(story.lat, story.lng);
 		marker = new google.maps.Marker( {position: latlng, map: map} );
@@ -33,6 +34,12 @@ var addMarkerListener = function(marker, infoWindow){
 	});	
 }
 
+google.maps.Map.prototype.clearOverlays = function() {
+  for (var i = 0; i < markers.length; i++ ) {
+    markers[i].setMap(null);
+  }
+}
+
 //Initializes Google Map w/options and places it in 'map' div container
 var gMapInit = function() {
 	//   https://developers.google.com/maps/documentation/javascript/tutorial  - For GMap documentation
@@ -43,6 +50,7 @@ var gMapInit = function() {
     };
     //Initialize map with options and place in div container (#map)
 	map = new google.maps.Map(document.getElementById("map"), mapOptions);
+	curMarker.setMap(map);
 	//Initialize a geocoder object to lookup countries in coordinates
 	geocoder = new google.maps.Geocoder();
 	
@@ -63,6 +71,11 @@ var gMapInit = function() {
 		//Place lat, lng in appropriate story form fields
 		$('#lat').val( event.latLng.lat() );
 		$('#lng').val( event.latLng.lng() );
+		$('#editLat').val( event.latLng.lat() );
+		$('#editLng').val( event.latLng.lng() );
+		curMarker.setVisible(true);
+		curMarker.setPosition(event.latLng);
+		//curMarker = new google.maps.Marker( {position: event.latLng, map: map} );
 		//Reverse geocode coordinates to find country of origin
 		geocoder.geocode( {'latLng': event.latLng}, function(results, status) {
       		if (status == google.maps.GeocoderStatus.OK) {

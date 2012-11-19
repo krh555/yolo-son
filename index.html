@@ -30,7 +30,7 @@
   </head>
   <body>
 		<div id="account">
-			<form name="loginForm" action="javascript: void(0);">
+			<form id="loginForm" name="loginForm" action="javascript: void(0);">
 				User Name: <input id="userName" type="text" name="userName">
 				Password: <input id="password" type="password" name="password">
 				<button id="submitLogin">Login</button>
@@ -135,6 +135,7 @@
 			 			<input id="lat" type="hidden" name="lat">
 			 			<input id="lng" type="hidden" name="lng">
 			 			<button id="postStory" value="submit" >Submit Story</button>
+			 			<button id="cancelPostStory" value="submit" >Cancel</button>
 					</form>
 			 	</div>
 			 					 				 	
@@ -143,6 +144,8 @@
 			 			Title: <input id="editTitle" type="text" name="title"><br >
 			 			Link: <input id="editUrl" type="text" name="url"><br >
 			 			Topic: <input type="text" id="editTopic" name"topic"><br >
+			 			<input id="editLat" type="hidden" name="lat">
+			 			<input id="editLng" type="hidden" name="lng">
 			 			<input id="editStoryId" type="hidden" name="storyid" value="" >
 			 			<button id="submitEdit" value="submit" >Edit Story</button>
 			 			<button id="cancelEdit" > Cancel </button>

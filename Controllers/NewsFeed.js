@@ -12,7 +12,7 @@ $(document).ready( function () {
 	
 	$('#submitEdit').click( function() {
 		var id = $('#editStoryId').val();
-		edit( id );
+		edit( story_id );
 		$('#editStoryDiv').slideUp('slow');
 		return false;
 	} );
@@ -20,6 +20,10 @@ $(document).ready( function () {
 	$('#cancelEdit').click( function() {
 		$('#editStoryDiv').slideUp('slow');
 		return false;
+	} );
+	$('#cancelPostStory').click( function() {
+		$('#storyFormDiv').slideUp('slow');
+		curMarker.setVisible(false);
 	} );
 } );
 

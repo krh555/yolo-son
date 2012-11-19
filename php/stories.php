@@ -21,18 +21,19 @@
 	
  	//Check request method
  	if( strcmp($_SERVER['REQUEST_METHOD'], "POST") == 0 ){
+ 		$id = mysqli_real_escape_string($mysqli, $_POST['id']);
 	 	if( isset($_POST['action']) ){
-	 		switch($_POST['action']) {
+	 		switch($_POST['action']) {	 			
 				case "like":
 					$update = "UPDATE stories
 							   SET likes = likes+1
-							   WHERE id = " . $_POST['id'] . ";";
+							   WHERE id = " . $id . ";";
 					$mysqli->query($update);
 					break;
 				case "flag":
 					$update = "UPDATE stories
 							   SET flags = flags+1
-							   WHERE id = " . $_POST['id'] . ";";							
+							   WHERE id = " . $id . ";";							
 					$mysqli->query($update);
 					$result = $mysqli->query("SELECT flags FROM stories WHERE id =" . $_POST['id'] . ";");
 					$row = $result->fetch_array(MYSQLI_NUM);

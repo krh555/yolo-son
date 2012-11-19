@@ -19,22 +19,29 @@ var pullStories = function() {
 	});
 }
 
+var even = 1;
 function pushToNewsFeed( stories ){
 	$('#stories').empty();
 	for(var i in stories){
 		story = stories[i];
 		//Add a new story object to news feed array
 		NewsFeed.push(story);
-		
 		//Create new list wrapper for story
-		var $new_story = $('<ul id="story' + story.id + '" class="article"></ul>');
+		if(even == 1){
+			var $new_story = $('<div class="articleEven"></div>');
+			even = 0;
+		}
+		else{
+			var $new_story = $('<div class="articleOdd"></div>');
+			even = 1;
+		}
 		
 		//Add story properties to list
-		$new_story.append( '<li class="title" ><a target="_blank" href="' + story.url + '">' + story.title + '</a></li>' );
-		$new_story.append( '<li>' + story.username + '</li>' );
-		$new_story.append( '<li>' + story.topics + '</li>' );
-		$new_story.append( '<li>' + story.likes + ' likes</li>' );
-		$new_story.append( '<li>' + story.num_comments + ' comments</li>' );
+		$new_story.append( '<h3><a target="_blank" href="' + story.url + '">' + story.title + '</a></h3>' );
+		$new_story.append( '<p>Posted by ' + story.username + ' on ' + story.posted_on + '</p>' );
+		$new_story.append( '<p>' + story.location + '</p>' );
+		$new_story.append( '<p>' + story.likes + ' likes</p>' );
+		$new_story.append( '<p>' + story.num_comments + ' comments</p>' );
 		$new_story.append( '<button class="editStory" value="' + story.id +'" > Edit</button>' );
 		$new_story.append( '<button class="comment" value="' + story.id +'" > Comments </button>' );
 		$new_story.append( '<button class="like" value="' + story.id +'" > Like </button>' );

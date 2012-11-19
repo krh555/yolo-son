@@ -14,7 +14,12 @@
 						   $_SESSION['user_id'] . "', '" .
 						   $story_id . "' , '" .
 						   $content . "');";
-				$mysqli->query($insert);						   
+				$mysqli->query($insert);
+				$update = "UPDATE stories
+						   SET num_comments = num_comments+1
+					   	   WHERE id = " . $story_id . ";";
+				$mysqli->query($update);
+										   
 				break;
 		}
 	}

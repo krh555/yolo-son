@@ -47,8 +47,7 @@ var submitStory = function(){
 	//Put form data into an array and pass it to stories.php script
 	//to create new database story record
 	//TODO return array containing inserted record values
-	$.post( "../php/stories.php", $("#storyForm").serialize() );
-	
+	$.post( "php/stories.php", $("#storyForm").serialize() );
 	//Add story properties to news feed
 	pullStories();
 	
@@ -64,7 +63,7 @@ var submitStory = function(){
 }
 
 /* Edit attributes of story, title/source/user are immutable */
-Story.prototype.editStory = function(topic, location) {
+Story.prototype.edit = function(topic, location) {
     this.topic = topic;
     this.location = location;
 }
