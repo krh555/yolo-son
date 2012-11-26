@@ -1,17 +1,18 @@
 <?php
     if( strcmp($_SERVER['PATH_INFO'], "/run") == 0 ){
 	    //Create link to database
-		$mysqli = new mysqli("127.0.0.1", "root", "");
+		//$mysqli = new mysqli("127.0.0.1", "root", "");
+		$mysqli = new mysqli("classroom.cs.unc.edu", "neillb27", "CH@ngemenow99Please!USER", "comp42629db");
 		echo mysqli_error($mysqli);
 		//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
 		$mysqli->set_charset("utf8");
 		
 		//Create database using UTF-8 international character encoding scheme
-		$mysqli->query("CREATE DATABASE IF NOT EXISTS news_map_dev CHARACTER SET utf8 COLLATE utf8_general_ci;");
-		echo mysqli_error($mysqli);
+		//$mysqli->query("CREATE DATABASE IF NOT EXISTS news_map_dev CHARACTER SET utf8 COLLATE utf8_general_ci;");
+		//echo mysqli_error($mysqli);
 		//Use news_map_dev database
-		$mysqli->query("USE news_map_dev;");
-		echo mysqli_error($mysqli);
+		//$mysqli->query("USE news_map_dev;");
+		//echo mysqli_error($mysqli);
 		
 		
 		//Drop all existing tables and print errors if any

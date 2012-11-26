@@ -10,6 +10,7 @@ $(document).ready( function () {
 		story_id = $(this).val();
 		$.post('php/comments.php', { story_id: story_id, content: text, action: "submit"} );		
 		pullStoryComments(story_id);
+		pullStories();
 		$('#commentText').val('');
 		$('#commentAuthor').val('');
 		return false;

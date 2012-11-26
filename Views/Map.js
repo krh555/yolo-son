@@ -6,6 +6,7 @@ var markers = new Array();
 var infoWindows = new Array();
 
 var resetMarkers = function(stories) {
+	map.clearOverlays();
 	markers.length = 0;
 	infoWindows.length = 0;
 	for(var i = 0; i < stories.length ; i += 1 ){

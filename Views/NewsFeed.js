@@ -1,6 +1,7 @@
 var NewsFeed = new Array();
 
 var pullStories = function() {
+	$('#stories').empty();
 	$.ajax({
 		  url: "php/stories.php",
 		  type: "GET",
@@ -51,36 +52,4 @@ function pushToNewsFeed( stories ){
 		$('#stories').append( $new_story );
 	}
 	reloadButtonHandlers();
-}
-
-function edit( storyid ){
-	//Temporary variables for form input
-	var title = $('#editTitle').val();
-	var url = $('#editUrl').val();
-	var topic = $('#editTopic').val();
-
-	//Edit story in NewsFeed array of stories
-	var story = NewsFeed[storyid];
-	story.title = title;
-	story.source = url;
-	story.topic = topic;
-	
-	//Reload story info in news feed
-	var listID = '#story' + storyid;
-	$(listID).empty();
-	$(listID).append('<li class="title" >' + story.title + '</li>' );
-	$(listID).append('<li>' + story.username + '</li>' );
-	$(listID).append('<li>' + story.url + '</li>' );
-	$(listID).append('<li>' + story.topics + '</li>' );
-	$(listID).append( '<button class="editStory" value="' + story.id +'" > Edit </button>' );
-	$(listID).append( '<button class="comment" value="' + story.id +'" > Comments </button>' );
-	$(listID).append( '<button class="like" value="' + story.id +'" > Like </button>' );
-	$(listID).append( '<button class="flag" value="' + story.id +'" > Mark as inappropriate </button>' );
-		
-	reloadButtonHandlers();
-		
-	//Clear story form
-	$('#editTitle').val('');
-	$('#editUrl').val('');
-	$('#editTopic').val('');
 }

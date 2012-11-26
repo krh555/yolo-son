@@ -15,7 +15,8 @@
 	session_start();
 	$MAX_FLAGS = 10;
 	//Create link to database
-	$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
+	//$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
+	$mysqli = new mysqli("classroom.cs.unc.edu", "neillb27", "CH@ngemenow99Please!USER", "comp42629db");
 	//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
 	$mysqli->set_charset("utf8");
 	

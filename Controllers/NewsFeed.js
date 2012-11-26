@@ -14,6 +14,7 @@ $(document).ready( function () {
 		var id = $('#editStoryId').val();
 		edit( story_id );
 		$('#editStoryDiv').slideUp('slow');
+		pullStories();
 		return false;
 	} );
 	
@@ -21,6 +22,7 @@ $(document).ready( function () {
 		$('#editStoryDiv').slideUp('slow');
 		return false;
 	} );
+	
 	$('#cancelPostStory').click( function() {
 		$('#storyFormDiv').slideUp('slow');
 		curMarker.setVisible(false);
@@ -52,11 +54,13 @@ var reloadButtonHandlers = function(){
 	$('.like').off('click');
 	$('.like').click( function() {
 		var id = $(this).val();
-		$.post('php/stories.php', { action: 'like', id: id });	
+		$.post('php/stories.php', { action: 'like', id: id });
+		pullStories();	
 	});
 	$('.flag').off('click');
 	$('.flag').click( function() {
 		var id = $(this).val();
 		$.post('php/stories.php', { action: 'flag', id: id });	
+		pullStories();
 	});
 }
