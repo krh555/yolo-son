@@ -74,6 +74,14 @@
 					$location . "'
 				);";
 				$mysqli->query($insert_story);
+				$select_story = "SELECT * FROM stories WHERE 
+			        user_id = '" . $_SESSION['user_id'] . "',
+					title = '" . $title . "', 
+					url = '" . $url . "',					
+					location = '" . $location . "';";
+				$result = $mysqli->query($select_story);
+				$row = $result->fetch_array(MYSQLI_ASSOC);
+				echo json_encode($row);			
 			}
 		}
 	}

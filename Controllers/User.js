@@ -19,7 +19,7 @@ $(document).ready( function () {
 			success: function(data) {
 				//Take JSON encoded (username, id) and fill in current_user var
 				current_user = new User(data);
-				$('#account').append('Account successfully created. Name: ' + current_user.username);
+				$('#account').append('<h4>Account successfully created. Name: ' + current_user.username + '</h4>');
 				$('#loginForm').hide();
 			},
 			error: function(data) {
@@ -43,7 +43,7 @@ $(document).ready( function () {
 		// !!! FIX ERROR HANDLING HERE AND IN users.php !!!
 		$.post("php/users.php", { userName: name, password: pw, action: "login" }, function(data) {
 			current_user = new User(data);
-			$('#account').append('Welcome back ' + current_user.username);
+			$('#account').append('<h4>Welcome back ' + current_user.username + '</h4>');
 			$('#loginForm').hide();
 		} );
 	});

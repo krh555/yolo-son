@@ -1,9 +1,11 @@
 var NewsFeed = new Array();
 
-var even = 1;
+
 fillStories = function( stories ){
+	var even = 1;
 	$('#stories').empty();
-	for(var i in stories){
+	NewsFeed = new Array();
+	for(var i = 0; i < stories.length; i++){
 		story = stories[i];
 		//Add a new story object to news feed array
 		NewsFeed.push(story);

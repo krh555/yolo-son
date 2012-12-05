@@ -1,6 +1,7 @@
 $(document).ready( function () {
 	$('#closeNewsFeed').click( function() {
 		$('#map').css('width', '100%');
+		$('#discussion').css('width', '0%');
 		$('#newsFeed').css('width','0%');
 	} );
 	
@@ -62,7 +63,7 @@ var Story = function(json, topics){
 /* Called when storyForm is submitted, creates new story object,
  * inserts record for it in db and places marker on the map
  */ 
-submitStory = function(){	
+var submitStory = function(){	
 	//Temporary variables for form input
 	var title = $('#title').val();
 	var url = $('#url').val();
@@ -78,8 +79,11 @@ submitStory = function(){
 	//Put form data into an array and pass it to stories.php script
 	//to create new database story record
 	//TODO return array containing inserted record values
-	$.post( "php/stories.php", $("#storyForm").serialize() );
-	//Add story properties to news feed
+	$.post( "php/stories.php", $("#storyForm").serialize(), function(data) {
+		//Create object and put at top of news feed
+		//new_feed = NewsFeed.splice(0, 0, new Story(data, 0) );
+		//fillStories(new_feed);
+	} );
 	getStories();
 	
 	//Clear story form
@@ -91,7 +95,7 @@ submitStory = function(){
 	$('#location').val('');
 	//Hide form
 	$('#storyFormDiv').hide();
-}
+};
 
 Story.prototype.edit = function( storyid ){
 	//Temporary variables for form input
@@ -133,7 +137,7 @@ getStories = function() {
 		  dataType: "json",
 		  success: function(stories) {		  
 		  	storyObjects = new Array();
-		  	for(var i in stories){			
+		  	for(var i = 0; i < stories.length; i++){			
 				storyObjects.push( new Story(stories[i], 0) );	
 			}	
 			fillStories(storyObjects);			
