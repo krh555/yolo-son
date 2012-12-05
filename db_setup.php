@@ -1,18 +1,18 @@
 <?php
     if( strcmp($_SERVER['PATH_INFO'], "/run") == 0 ){
 	    //Create link to database
-		//$mysqli = new mysqli("127.0.0.1", "root", "");
-		$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
+		$mysqli = new mysqli("127.0.0.1", "root", "");
+		//$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
 		echo mysqli_error($mysqli);
 		//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
 		$mysqli->set_charset("utf8");
 		
 		//Create database using UTF-8 international character encoding scheme
-		//$mysqli->query("CREATE DATABASE IF NOT EXISTS news_map_dev CHARACTER SET utf8 COLLATE utf8_general_ci;");
-		//echo mysqli_error($mysqli);
+		$mysqli->query("CREATE DATABASE IF NOT EXISTS news_map_dev CHARACTER SET utf8 COLLATE utf8_general_ci;");
+		echo mysqli_error($mysqli);
 		//Use news_map_dev database
-		//$mysqli->query("USE news_map_dev;");
-		//echo mysqli_error($mysqli);
+		$mysqli->query("USE news_map_dev;");
+		echo mysqli_error($mysqli);
 		
 		
 		//Drop all existing tables and print errors if any
@@ -26,6 +26,8 @@
 		$mysqli->query("DROP TABLE IF EXISTS comments;");
 		echo mysqli_error($mysqli);
 		$mysqli->query("DROP TABLE IF EXISTS storyTopics;");
+		echo mysqli_error($mysqli);
+		$mysqli->query("DROP TABLE IF EXISTS userLikes;");
 		echo mysqli_error($mysqli);
 		$mysqli->query("DROP TABLE IF EXISTS topics;");
 		echo mysqli_error($mysqli);
@@ -64,17 +66,24 @@
 	  		flags	  INTEGER DEFAULT 0,
 	  		likes	  INTEGER DEFAULT 0
 		);";
+		$topics = "CREATE TABLE topics (
+	  		id	 INTEGER NOT NULL AUTO_INCREMENT,
+	  		PRIMARY KEY (id),
+	  		name VARCHAR(32) NOT NULL	  		
+		);";
 		$storyTopics = "CREATE TABLE storyTopics (
 	  		id		 INTEGER NOT NULL AUTO_INCREMENT,
 	  		PRIMARY KEY (id),
 	  		story_id INTEGER NOT NULL,
 	  		topic_id INTEGER NOT NULL
 		);";
-		$topics = "CREATE TABLE topics (
-	  		id	 INTEGER NOT NULL AUTO_INCREMENT,
-	  		PRIMARY KEY (id),
-	  		name VARCHAR(32) NOT NULL	  		
+		$userLikes = "CREATE TABLE userLikes (
+			id	INTEGER NOT NULL AUTO_INCREMENT,
+			PRIMARY KEY (id),
+			user_id INTEGER NOT NULL,
+			story_id INTEGER NOT NULL
 		);";
+		
 		
 		//Execute create table statements and print errors if any
 		$mysqli->query($users);
@@ -86,6 +95,8 @@
 		$mysqli->query($storyTopics);
 		echo mysqli_error($mysqli);
 		$mysqli->query($topics);
+		echo mysqli_error($mysqli);
+		$mysqli->query($userLikes);
 		echo mysqli_error($mysqli);
 		
 		//Exit information
