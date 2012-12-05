@@ -1,27 +1,7 @@
 var NewsFeed = new Array();
 
-var pullStories = function() {
-	$('#stories').empty();
-	$.ajax({
-		  url: "php/stories.php",
-		  type: "GET",
-		  dataType: "json",
-		  success: function(stories) {		  
-		  	storyObjects = new Array();
-		  	for(var i in stories){			
-				storyObjects.push( new Story(stories[i], 0) );	
-			}	
-			pushToNewsFeed(storyObjects);			
-		  	resetMarkers(storyObjects);
-		  },
-		  error: function(jqXHR, txt) {
-		  	alert(txt);
-		  }
-	});
-}
-
 var even = 1;
-function pushToNewsFeed( stories ){
+fillStories = function( stories ){
 	$('#stories').empty();
 	for(var i in stories){
 		story = stories[i];
