@@ -21,6 +21,7 @@ $(document).ready( function () {
 				current_user = new User(data);
 				$('#account').append('<h4>Account successfully created. Name: ' + current_user.username + '</h4>');
 				$('#loginForm').hide();
+				getStories();
 			},
 			error: function(data) {
 				$('#account').append(data);	
@@ -50,7 +51,6 @@ $(document).ready( function () {
 			$('#account').append('<h4>Welcome back ' + current_user.username + '</h4>');
 			$('#loginForm').hide();
 			current_user.getLikes();
-			console.log(current_user.likes);
 			getStories();
 		} );
 	});
