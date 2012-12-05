@@ -1,12 +1,17 @@
 <?php
     session_start();
 	//Create link to database
-	//$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
-	$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
+	$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
+	//$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
 	//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
 	$mysqli->set_charset("utf8");
 	
 	if( strcmp($_SERVER['REQUEST_METHOD'], "POST") == 0 ){
+		if( !isset($_SESSION['user_id']) ){
+			header("HTTP/1.0 400 Bad Request");
+			echo 'Please create an account to create and comment on stories';
+			exit();
+		}
 		switch($_POST['action']){
 			case "submit":
 				$content = mysqli_real_escape_string( $mysqli, $_POST['content'] );

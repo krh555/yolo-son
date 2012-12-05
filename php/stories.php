@@ -15,21 +15,31 @@
 	session_start();
 	$MAX_FLAGS = 10;
 	//Create link to database
-	//$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
-	$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
+	$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
+	//$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
 	//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
 	$mysqli->set_charset("utf8");
 	
  	//Check request method
  	if( strcmp($_SERVER['REQUEST_METHOD'], "POST") == 0 ){
+ 		if( !isset($_SESSION['user_id']) ){
+			header("HTTP/1.0 400 Bad Request");
+			echo 'Please create an account to create and comment on stories';
+			exit();
+		}
  		$id = mysqli_real_escape_string($mysqli, $_POST['id']);
 	 	if( isset($_POST['action']) ){
 	 		switch($_POST['action']) {	 			
 				case "like":
-					$update = "UPDATE stories
+					$updateStories = "UPDATE stories
 							   SET likes = likes+1
 							   WHERE id = " . $id . ";";
-					$mysqli->query($update);
+					$mysqli->query($updateStories);
+					$updateLikes = "INSERT INTO userLikes (user_id, story_id) VALUES('" .
+						$_SESSION['user_id'] . "', '" .
+						$id . "'
+					);";
+					$mysqli->query($updateLikes);
 					break;
 				case "flag":
 					$update = "UPDATE stories
@@ -61,8 +71,8 @@
 					$url . "', '" .
 					$lat . "', '" .
 					$lng . "', '" .
-					$location . "						
-				');";
+					$location . "'
+				);";
 				$mysqli->query($insert_story);
 			}
 		}

@@ -29,8 +29,8 @@
 		exit();
 	}
 	//Create link to database
-	//$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
-	$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
+	$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
+	//$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
 	//Set charset so fields can be properly escaped/cleansed to prevent SQL injection
 	$mysqli->set_charset("utf8");
 	
@@ -60,12 +60,13 @@
 			else{
 				//Account succesfully created, get its ID and put it in a session variable to maintain state with client
 				//Execute query and store result object
-				$result = $mysqli->query("SELECT id FROM users WHERE username = '" . $name . "';");
+				$result = $mysqli->query("SELECT id, username FROM users WHERE username = '" . $name . "';");
 				//Get the lone row of the result object in array form
 				$row = $result->fetch_array(MYSQLI_NUM);
 				//Store user ID as a session variable so it can be automatically stored with posted stories/comments
 				$_SESSION['user_id'] = $row[0];
-				echo "Account created! Name: " . $name;
+				$current_user = array("username" => $row[1], "user_id" => $row[0]);
+				echo json_encode($current_user);
 			}
 			break;
 		//Otherwise login button was clicked
@@ -77,6 +78,11 @@
 			 */
 			//Find user with given name
 			$result = $mysqli->query("SELECT * FROM users WHERE username = '" . $name . "';");
+			if( mysqli_num_rows($result) == 0){
+				header("HTTP/1.1 404 Not Found");
+				echo "Do you have an account?";
+				break;
+			}
 			//Convert result into associative array (key->value pairs)
 			$row = $result->fetch_array(MYSQLI_ASSOC);
 			//Hash given password using stored salt
@@ -90,12 +96,16 @@
 				 * a user id to create a database record
 				 */
 				$_SESSION['user_id'] = $row['id'];
+				$current_user = array("username" => $row['username'], "user_id" => $row['id']);
 				//Return greeting
-				echo "Welcome back " . $name;
+				echo json_encode($current_user);
 			}
-			//Passwords do not match, print error to user
-			else echo "Make sure your account information is correct.";
-			break;
+			else {
+				//Passwords do not match, print error to user
+				header("HTTP/1.1 401 Unauthorized");
+				echo "Make sure your account information is correct.";
+				break;
+			}
 	}
 	
 	//Create a random string of specified length (to be used as the salt in hashing the password)
