@@ -41,22 +41,28 @@ $(document).ready( function () {
 		pw = CryptoJS.MD5(pw).toString();
 		//Call users.php with login action set to authenticate existing user account
 		// !!! FIX ERROR HANDLING HERE AND IN users.php !!!
+		/*$.ajax({
+			url: "php/users.php",
+			type: "POST"
+		});*/
 		$.post("php/users.php", { userName: name, password: pw, action: "login" }, function(data) {
-			current_user = new User(data);
+			current_user = new User(data);			
 			$('#account').append('<h4>Welcome back ' + current_user.username + '</h4>');
 			$('#loginForm').hide();
 		} );
+		getLikes();
+		alert(current_user.likes);
+		getStories();
 	});
 } );
 
-/* current_user holds the profile info for the
- * user currently signed in
- */
-var current_user;
+
 /* User object which represents a site client */
-var User = function (username, id) {
+var User = function (username, id, likes) {
     this.username = username;
 	this.id = id;
+	this.likes = new Array(); 
+	this.likes = likes;
 }
 
 var User = function(json) {
@@ -64,4 +70,19 @@ var User = function(json) {
 	for( var key in json){
 		this[key] = json[key];
 	}
+}
+
+//Retrieve array of ids for stories this user has liked
+var getLikes = function() {
+	$.ajax({
+		url: "php/users.php", 
+		type: "GET",
+		data: { action: "likes", user_id: current_user.id }, 
+	success: function(likes) {
+			current_user.likes = $.parseJSON(likes);
+		},
+		error: function(data) {
+			$('#account').append(data);	
+		}
+	} );	
 }
