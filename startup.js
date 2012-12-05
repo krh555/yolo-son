@@ -13,7 +13,7 @@ $(document).ready( function () {
 	$('ul.login_menu').hide();
 	
 	gMapInit();
-	pullStories();
+	getStories();
 	/* TODO
 	* -Fix error handling for login/register ajax requests 
 	* -Hide form after authenticating
