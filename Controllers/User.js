@@ -17,7 +17,9 @@ $(document).ready( function () {
 			type: "POST",
 			data: { userName: name, password: pw, action: "register" }, 
 			success: function(data) {
-				$('#account').append(data);
+				//Take JSON encoded (username, id) and fill in current_user var
+				current_user = new User(data);
+				$('#account').append('Account successfully created. Name: ' + current_user.username);
 				$('#loginForm').hide();
 			},
 			error: function(data) {
@@ -40,8 +42,26 @@ $(document).ready( function () {
 		//Call users.php with login action set to authenticate existing user account
 		// !!! FIX ERROR HANDLING HERE AND IN users.php !!!
 		$.post("php/users.php", { userName: name, password: pw, action: "login" }, function(data) {
-			$('#account').append(data);
+			current_user = new User(data);
+			$('#account').append('Welcome back ' + current_user.username);
 			$('#loginForm').hide();
 		} );
 	});
 } );
+
+/* current_user holds the profile info for the
+ * user currently signed in
+ */
+var current_user;
+/* User object which represents a site client */
+var User = function (username, id) {
+    this.username = username;
+	this.id = id;
+}
+
+var User = function(json) {
+	json = $.parseJSON(json);
+	for( var key in json){
+		this[key] = json[key];
+	}
+}
