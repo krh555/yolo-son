@@ -49,10 +49,10 @@ $(document).ready( function () {
 			current_user = new User(data);			
 			$('#account').append('<h4>Welcome back ' + current_user.username + '</h4>');
 			$('#loginForm').hide();
+			current_user.getLikes();
+			console.log(current_user.likes);
+			getStories();
 		} );
-		getLikes();
-		alert(current_user.likes);
-		getStories();
 	});
 } );
 
@@ -62,7 +62,6 @@ var User = function (username, id, likes) {
     this.username = username;
 	this.id = id;
 	this.likes = new Array(); 
-	this.likes = likes;
 }
 
 var User = function(json) {
@@ -70,19 +69,26 @@ var User = function(json) {
 	for( var key in json){
 		this[key] = json[key];
 	}
+	this.likes = new Array();
+}
+
+var addLike = function(story_id){
+	current_user.likes.push(story_id);
 }
 
 //Retrieve array of ids for stories this user has liked
-var getLikes = function() {
+User.prototype.getLikes = function() {
+	//var ret = new Array();
 	$.ajax({
 		url: "php/users.php", 
 		type: "GET",
-		data: { action: "likes", user_id: current_user.id }, 
-	success: function(likes) {
-			current_user.likes = $.parseJSON(likes);
+		data: { action: "likes", user_id: this.id }, 
+		success: function(s_id_array) {
+			s_id_array = $.parseJSON(s_id_array);
+			current_user.likes = s_id_array;
 		},
 		error: function(data) {
 			$('#account').append(data);	
 		}
-	} );	
+	} );		
 }

@@ -12,6 +12,7 @@ $(document).ready( function () {
 	$('ul.favorite_menu').hide();
 	$('ul.login_menu').hide();
 	
+	//Assign null value to user for now for conditions
 	gMapInit();
 	getStories();
 	/* TODO
