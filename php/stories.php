@@ -86,10 +86,28 @@
 		}
 	}
 	elseif( strcmp($_SERVER['REQUEST_METHOD'], "GET") == 0 ) {
-		$query = "SELECT S.*, U.username 
-				 FROM stories S, users U 
-				 WHERE U.id = S.user_id
-				 ORDER BY likes DESC;";
+		//TODO add conditional branches checking if each filter is set 
+		//and creating appropriate query string for filter
+		if( isset($_GET['location']) ){
+			//TODO $query = .... location LIKE '%location%'
+		}			
+		elseif( isset($_GET['likes']) ){
+			//TODO $query = query stories with at least given # of likes
+		}
+		elseif( isset($_GET['comments']) ){
+			//TODO $query = query stories with at least given # of comments
+		}
+		//TODO filters go here if not filter is set all stories are retrieved
+		else{
+			$query = "SELECT S.*, U.username 
+					 FROM stories S, users U 
+					 WHERE U.id = S.user_id
+					 ORDER BY likes DESC;";
+		}
+		// END TODO
+		//
+		//
+		//This code packages results for client jquery code
 		$result = $mysqli->query($query);
 		//Array which holds JSON encoded story objects to be returned to client
 		$json_stories = array();
