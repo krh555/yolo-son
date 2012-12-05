@@ -175,6 +175,7 @@ reloadButtonHandlers = function(){
 	$('.like').click( function() {
 		var id = $(this).val();
 		$.post('php/stories.php', { action: 'like', id: id });
+		addLike(id);
 		getStories();	
 	});
 	$('.flag').off('click');
