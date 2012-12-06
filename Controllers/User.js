@@ -19,8 +19,8 @@ $(document).ready( function () {
 			success: function(data) {
 				//Take JSON encoded (username, id) and fill in current_user var
 				current_user = new User(data);
-				$('#account').append('<h4>Account successfully created. Name: ' + current_user.username + '</h4>');
-				$('#loginForm').hide();
+				$('#account').slideUp();
+				$('.menu').prepend('Welcome ' + current_user.username + ' | ');				
 				getStories();
 			},
 			error: function(data) {
@@ -48,8 +48,8 @@ $(document).ready( function () {
 		});*/
 		$.post("php/users.php", { userName: name, password: pw, action: "login" }, function(data) {
 			current_user = new User(data);			
-			$('#account').append('<h4>Welcome back ' + current_user.username + '</h4>');
-			$('#loginForm').hide();
+			$('#account').slideUp();
+			$('.menu').prepend(current_user.username + ' | ');			
 			current_user.getLikes();
 			getStories();
 		} );
