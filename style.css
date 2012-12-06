@@ -1,22 +1,26 @@
 body {  
- background-color: #7C6EEE;
+ background-color: #9A90EE;
  margin: 0px;
  font-family: verdana;
 }
 
+a {
+	color: #0A1D80;
+}
+
 nav {
-position: relative;
-height: 140px;
+ position: relative;
+ height: 100px;
  width: 100%;
  margin-top: -15px;
- background-color: #7C6EEE; 
+ background-color: #9A90EE; 
  color: #0A1D80;
- }
+}
 .menu {
  position:relative;
  width: 100%;
  height: 40px;
- background-color: #7C6EEE;
+ background-color: #9A90EE;
 
 }
 nav ul{
@@ -62,7 +66,7 @@ nav ul li{
  float: left;
  width: 0%;
  height: 100%;
- background-color: #8a87a0; 
+ background-color: #7C6EEE; 
  overflow: scroll;
 }
 
@@ -71,12 +75,16 @@ nav ul li{
  font-size: 30px;
  }
  
+#discussion p {
+	text-align: center;
+}
+ 
 #newsFeed {
  color: #282731;
  float: right;
  width: 20%;
  height: 100%;
- background-color: #9A90EE; 
+ background-color: #7C6EEE; 
  overflow: scroll;
  }
  
@@ -93,6 +101,14 @@ nav ul li{
 	background-color: #7C6EEE;	
 }
 
+.commentEven {
+	background-color: #9A90EE;	
+}
+
+.commentOdd {
+	background-color: #7C6EEE;	
+}
+
  #storyForm {
  	display: inherit;
  }
@@ -105,6 +121,8 @@ nav ul li{
 .article li.title{
  font-size: 25px;
  }
+ 
+ 
  
 .file_menu {
     display:none;

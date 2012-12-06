@@ -31,7 +31,7 @@
 	}
 	elseif( strcmp($_SERVER['REQUEST_METHOD'], "GET") == 0 ){
 		$story_id = mysqli_real_escape_string( $mysqli, $_GET['story_id'] );
-		$query = "SELECT C.*, U.username
+		$query = "SELECT C.*, U.id as user_id, U.username
 				  FROM comments C, users U
 				  WHERE C.user_id = U.id 
 				  	AND C.story_id='" . $story_id . "';";

@@ -6,7 +6,15 @@ $(document).ready( function () {
 	} );
 	
 	$('#submitComment').click( function() {
+		if( current_user.id == 0){
+			alert('Please login or create an account to comment on stories');
+			return false;;
+		}
 		text = $('#commentText').val();
+		if( text === '' ){
+			alert('What do you have to say?');
+			return false;
+		}
 		story_id = $(this).val();
 		$.post('php/comments.php', { story_id: story_id, content: text, action: "submit"} );		
 		pullStoryComments(story_id);
