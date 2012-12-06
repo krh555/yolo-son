@@ -3,6 +3,7 @@ $(document).ready( function () {
 	$('#closeDiscussion').click( function() {
 		$('#map').css('width', '80%');
 		$('#discussion').css('width','0%');
+		google.maps.event.trigger(map, 'resize') 
 	} );
 	
 	$('#submitComment').click( function() {
@@ -10,7 +11,7 @@ $(document).ready( function () {
 			alert('Please login or create an account to comment on stories');
 			return false;;
 		}
-		text = $('#commentText').val();
+		text = $.trim( $('#commentText').val() );
 		if( text === '' ){
 			alert('What do you have to say?');
 			return false;

@@ -34,7 +34,8 @@
 		$query = "SELECT C.*, U.id as user_id, U.username
 				  FROM comments C, users U
 				  WHERE C.user_id = U.id 
-				  	AND C.story_id='" . $story_id . "';";
+				  	AND C.story_id='" . $story_id . "'
+				  ORDER BY posted_on DESC;";
 		$result = $mysqli->query($query);
 		echo mysqli_error($mysqli);
 		//Array which holds JSON encoded story objects to be returned to client

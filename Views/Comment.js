@@ -19,8 +19,9 @@ var pullStoryComments = function(story_id){
 				var $new_comment = $('<div class="commentOdd"></div>');
 				even = 1;
 			}			
-			$new_comment.append('<h4>' + c.content + '</h4>');
-			$new_comment.append('<p>- ' + c.username + '</p>');
+			$new_comment.append('<p>' + c.username + ' said ...</p>');
+			$new_comment.append('<p> ' + c.username + '</p>');
+			$new_comment.append('<p>at ' + c.posted_on + '</p>');
 			if( current_user.id != 0){
 				if( current_user.id == c.user_id ){
 					$new_comment.append( '<button class="editComment" value="' + c.id +'" > Edit</button>' );
