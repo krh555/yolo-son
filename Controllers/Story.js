@@ -3,15 +3,25 @@ $(document).ready( function () {
 		$('#map').css('width', '100%');
 		$('#discussion').css('width', '0%');
 		$('#newsFeed').css('width','0%');
+		google.maps.event.trigger(map, 'resize') 
 	} );
 	
 	//Handles submit story button and adds the story to the news feed
 	$('#postStory').click( function() {
-		submitStory();
-		return false;
+		if( current_user == 0){
+			alert('Please login or create an account');
+		}
+		else {
+			submitStory();
+			return false;
+		}
 	} );
 	
 	$('#submitEdit').click( function() {
+		if( current_user == 0){
+			alert('Please login or create an account');
+			return;
+		}
 		var id = $('#editStoryId').val();
 		Story.edit( story_id );
 		$('#editStoryDiv').slideUp('slow');
@@ -65,24 +75,24 @@ var Story = function(json, topics){
  */ 
 var submitStory = function(){	
 	//Temporary variables for form input
-	var title = $('#title').val();
-	var url = $('#url').val();
+	var title = $.trim( $('#title').val() );
+	var url = $.trim( $('#url').val() );
 	var topic = $('#topic').val();
 	var lat = $('#lat').val();
 	var lng = $('#lng').val();
-	var location = $('#location').val();
+	var location = $.trim( $('#location').val() );
 	//Check if any required fields are empty
 	if ( title === "" || url === "" || location === "" ){
 		alert("Make sure all form fields are filled out.");
 		return;
 	}
 	//Put form data into an array and pass it to stories.php script
-	//to create new database story record
-	//TODO return array containing inserted record values
-	$.post( "php/stories.php", $("#storyForm").serialize(), function(data) {
+	//to create new database story record	
+	$.post( "php/stories.php", $ ("#storyForm").serialize(), function(data) {
 		//Create object and put at top of news feed
-		//new_feed = NewsFeed.splice(0, 0, new Story(data, 0) );
-		//fillStories(new_feed);
+		//$('#stories').prepend( wrapStory( $.parseJSON( data ) ) );
+		//pushStory( $.parseJSON(data), 0 );
+		//reloadButtonHandlers();
 	} );
 	getStories();
 	

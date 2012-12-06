@@ -81,7 +81,8 @@
 					location = '" . $location . "';";
 				$result = $mysqli->query($select_story);
 				$row = $result->fetch_array(MYSQLI_ASSOC);
-				echo json_encode($row);			
+				echo json_encode($row);
+				return;		
 			}
 		}
 	}
