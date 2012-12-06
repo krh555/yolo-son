@@ -14,6 +14,7 @@
 	//Start a php session to access client state/session variables
 	session_start();
 	$MAX_FLAGS = 10;
+	$MAX_DELETES = 0;
 	//Create link to database
 	$mysqli = new mysqli("127.0.0.1", "root", "", "news_map_dev");
 	//$mysqli = new mysqli("classroom.cs.unc.edu", "bullock", "CH@ngemenow99Please!bullock", "comp42629db");
@@ -53,6 +54,10 @@
 						$mysqli->query("DELETE FROM stories WHERE id =" . $_POST['id'] . ";");
 					}
 					break;
+				case "delete":
+					$id = mysqli_real_escape_string($mysqli, $_POST['id']);
+					$mysqli->query("DELETE FROM stories WHERE id =" . $id . ";");
+					return;
 	 		}
 		}
 		else {

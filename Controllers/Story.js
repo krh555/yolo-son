@@ -194,4 +194,10 @@ reloadButtonHandlers = function(){
 		$.post('php/stories.php', { action: 'flag', id: id });	
 		getStories();
 	});
+	$('.deleteStory').off('click');
+	$('.deleteStory').click( function() {
+		var id = $(this).val();
+		$.post('php/stories.php', { action: 'delete', id: id });	
+		getStories();
+	});
 }
