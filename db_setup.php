@@ -41,8 +41,8 @@
 			account_created		 	DATE,
 			last_activity 			TIMESTAMP 	DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			num_posts 				INTEGER 	DEFAULT 0,
-			likes 					INTEGER 	DEFAULT 0
-			);";
+			likes 					INTEGER 	DEFAULT 0 );";
+			//) ENGINE=INNODB;";
 		$stories = "CREATE TABLE stories(
 			id 				INTEGER		 NOT NULL AUTO_INCREMENT, PRIMARY KEY(id),
 			user_id 		INTEGER		 NOT NULL,
@@ -54,8 +54,11 @@
 			num_comments 	INTEGER 	 DEFAULT 0,
 			posted_on 		TIMESTAMP 	 DEFAULT CURRENT_TIMESTAMP,
 			likes 			INTEGER		 DEFAULT 0,
-			flags 			INTEGER		 DEFAULT 0
-			);";
+			flags 			INTEGER		 DEFAULT 0 );";
+			/*
+			FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+			) ENGINE=INNODB;";
+			*/
 		$comments = "CREATE TABLE comments (
 	  		id		 INTEGER NOT NULL AUTO_INCREMENT,
 	  		PRIMARY KEY (id),
@@ -64,25 +67,38 @@
 	  		content   TEXT	 NOT NULL,
 	  		posted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	  		flags	  INTEGER DEFAULT 0,
-	  		likes	  INTEGER DEFAULT 0
-		);";
+	  		likes	  INTEGER DEFAULT 0);";
+	  		/*
+	  		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+	  		FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE CASCADE
+			) ENGINE=INNODB;";
+			*/
 		$topics = "CREATE TABLE topics (
 	  		id	 INTEGER NOT NULL AUTO_INCREMENT,
 	  		PRIMARY KEY (id),
-	  		name VARCHAR(32) NOT NULL	  		
-		);";
+	  		name VARCHAR(32) NOT NULL );";	  		
+		//) ENGINE=INNODB;";
 		$storyTopics = "CREATE TABLE storyTopics (
 	  		id		 INTEGER NOT NULL AUTO_INCREMENT,
 	  		PRIMARY KEY (id),
 	  		story_id INTEGER NOT NULL,
-	  		topic_id INTEGER NOT NULL
-		);";
+	  		topic_id INTEGER NOT NULL);";
+	  		/*
+	  		FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE CASCADE,
+	  		FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE
+			) ENGINE=INNODB;";
+			*/ 
+			 
 		$userLikes = "CREATE TABLE userLikes (
 			id	INTEGER NOT NULL AUTO_INCREMENT,
 			PRIMARY KEY (id),
 			user_id INTEGER NOT NULL,
-			story_id INTEGER NOT NULL
-		);";
+			story_id INTEGER NOT NULL );";
+			/*
+			FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+			FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE CASCADE
+			) ENGINE=INNODB;";			 
+			*/
 		
 		
 		//Execute create table statements and print errors if any
@@ -92,9 +108,9 @@
 		echo mysqli_error($mysqli);
 		$mysqli->query($comments);
 		echo mysqli_error($mysqli);
-		$mysqli->query($storyTopics);
-		echo mysqli_error($mysqli);
 		$mysqli->query($topics);
+		echo mysqli_error($mysqli);
+		$mysqli->query($storyTopics);
 		echo mysqli_error($mysqli);
 		$mysqli->query($userLikes);
 		echo mysqli_error($mysqli);
