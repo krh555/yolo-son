@@ -70,6 +70,9 @@ var gMapInit = function() {
 	//Initialize a geocoder object to lookup countries in coordinates
 	geocoder = new google.maps.Geocoder();
 	
+	//To resize map when news feed or discussion are closed
+	google.maps.event.trigger(map, 'resize') 
+	
 	/* Event handler for clicks on the Google Map
 	 * A click causes the News Feed to pop up with a create story form.
 	 * The handler places the latitude,longitude for the story in hidden form
@@ -81,6 +84,7 @@ var gMapInit = function() {
 		$('#map').css('width','80%');
 		$('#discussion').css('width','0%');
 		$('#newsFeed').css('width','20%');	
+		google.maps.event.trigger(map, 'resize') 
 		//Show create story form
 		$('#storyFormDiv').slideDown('slow');
 		//Get lat,lng from event object (holds values related to click event)
