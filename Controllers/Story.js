@@ -141,7 +141,7 @@ getStories = function() {
 				storyObjects.push( new Story(stories[i], 0) );	
 			}	
 			fillStories(storyObjects);			
-		  	resetMarkers(storyObjects);
+		  	updateMap(storyObjects);
 		  },
 		  error: function(jqXHR, txt) {
 		  	alert(txt);

@@ -4,16 +4,18 @@ var geocoder;
 var curMarker = new google.maps.Marker();
 var markers = new Array();
 var infoWindows = new Array();
+var heatMapData = new Array();
+var heatmap;
 
-var resetMarkers = function(stories) {
+var updateMap = function(stories) {
 	map.clearOverlays();
-	markers.length = 0;
-	infoWindows.length = 0;
-	for(var i = 0; i < stories.length ; i += 1 ){
+	for(var i = 0; i < stories.length ; i++ ){
 		story = stories[i];
+		
 		latlng = new google.maps.LatLng(story.lat, story.lng);
 		marker = new google.maps.Marker( {position: latlng, map: map} );
 		markers.push(marker);
+		
 		//Creates an info window which pops up above the marker with information about it
 		infoWindowContent = story.title + '<br >' 
 			+ story.username + '<br >' 
@@ -24,8 +26,15 @@ var resetMarkers = function(stories) {
 	    };
 	    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 	    infoWindows.push(infoWindow);		
+	    
 		addMarkerListener(markers[i], infoWindows[i]);
+		
+		popularity = story.likes + story.num_comments + 1;
+		heatMapData.push( {location: latlng, weight: Number(popularity)} );		
 	}
+	pointArray = new google.maps.MVCArray(heatMapData);
+	heatmap = new google.maps.visualization.HeatmapLayer( {data: pointArray, radius: 50} );
+	heatmap.setMap(map);
 }
 
 var addMarkerListener = function(marker, infoWindow){
@@ -36,9 +45,15 @@ var addMarkerListener = function(marker, infoWindow){
 }
 
 google.maps.Map.prototype.clearOverlays = function() {
-  for (var i = 0; i < markers.length; i++ ) {
-    markers[i].setMap(null);
-  }
+  	for (var i = 0; i < markers.length; i++ ) {
+    	markers[i].setMap(null);
+ 	}
+  	markers.length = 0;
+	infoWindows.length = 0;
+	if( !(typeof heatmap === 'undefined') ){
+		heatmap.setMap(null);
+	}
+	heatMapData = new Array();
 }
 
 //Initializes Google Map w/options and places it in 'map' div container
